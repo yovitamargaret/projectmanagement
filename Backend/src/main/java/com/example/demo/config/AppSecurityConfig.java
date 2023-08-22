@@ -33,6 +33,7 @@ public class AppSecurityConfig {
                     .antMatchers("/api/department/**").permitAll()
                     .antMatchers("/overtimeStatus/**").permitAll()
                     .antMatchers("/api/overtimeStatus/**").permitAll()
+                    .antMatchers("/api/task/**").permitAll()
                     .anyRequest().authenticated()
                     .and()
                     .formLogin()

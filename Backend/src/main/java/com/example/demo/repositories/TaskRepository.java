@@ -1,13 +1,11 @@
 package com.example.demo.repositories;
 
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.entities.OvertimeType;
+import com.example.demo.entities.Task;
 
 @Repository
-public interface OvertimeTypeRepository extends JpaRepository<OvertimeType,Integer>{
-
-
+public interface TaskRepository extends JpaRepository<Task,Integer>{
+    
 }

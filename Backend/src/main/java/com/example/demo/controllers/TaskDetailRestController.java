@@ -11,36 +11,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.entities.Overtime;
+import com.example.demo.entities.TaskDetail;
 import com.example.demo.handler.Response;
-import com.example.demo.services.OvertimeService;
+import com.example.demo.services.TaskDetailService;
 
 @RestController
 @RequestMapping("api")
-public class OvertimeRestController {
+public class TaskDetailRestController {
     @Autowired
-    private OvertimeService overtimeService;
+    private TaskDetailService taskDetailService;
 
-    @GetMapping("overtime")
+
+    @GetMapping("task_detail")
     public ResponseEntity<Object> get(){
-        return Response.generate(HttpStatus.OK, "data has been succesfully retrieved", overtimeService.Get());
+        return Response.generate(HttpStatus.OK, "data has been succesfully retrieved", taskDetailService.Get());
     }
 
-    @GetMapping("overtime/{id}")
+    @GetMapping("task_detail/{id}")
     public ResponseEntity<Object> get(@PathVariable(required = true) Integer id){
-        return Response.generate(HttpStatus.OK, "data has been succesfully retrieved", overtimeService.Get(id));
+        return Response.generate(HttpStatus.OK, "data has been succesfully retrieved", taskDetailService.Get(id));
     }
 
-    @PostMapping("overtime")
-    public ResponseEntity<Object> save(@RequestBody Overtime overtime){
-        overtimeService.Save(overtime);
+    @PostMapping("task")
+    public ResponseEntity<Object> save(@RequestBody TaskDetail task_detail){
+        taskDetailService.Save(task_detail);
         return Response.generate(HttpStatus.OK, "data has been succesfully saved");
     }
 
-    @DeleteMapping("overtime/{id}")
+    @DeleteMapping("task/{id}")
     public ResponseEntity<Object> delete(@PathVariable(required = true) Integer id){
-        overtimeService.Delete(id);
-        return Response.generate(HttpStatus.OK, "data has been succesfully deleted");
+        taskDetailService.Delete(id);
+        return Response.generate(HttpStatus.OK,"data has been succesfully deleted");
     }
-
 }

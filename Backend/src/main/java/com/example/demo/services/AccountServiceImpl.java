@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import com.example.demo.dto.ChangePasswordRequest;
 import com.example.demo.dto.ForgotPasswordRequest;
 import com.example.demo.dto.RegisterRequest;
-import com.example.demo.entities.Department;
 import com.example.demo.entities.Employee;
 import com.example.demo.entities.Role;
 import com.example.demo.entities.User;
@@ -26,13 +25,8 @@ public class AccountServiceImpl implements AccountService{
         Employee employee =new Employee();
         employee.setEmail(registerRequest.getEmail());
         employee.setName(registerRequest.getName());
-        employee.setPhonenumber(null);
-        employee.setAddress(null);
-        Department dept = new Department();
-        dept.setDepartment_id(1);
-        employee.setDepartment(dept);
-        employee.setManager_id(null);
-        employee.setJoindate(null);
+        employee.setPhone_number("09898989898");
+        employee.setAddress("null");
         // insert to employee
         Boolean resultEmployee= employeeService.Save(employee);
         if (resultEmployee) {
