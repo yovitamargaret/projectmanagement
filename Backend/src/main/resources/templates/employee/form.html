@@ -1,0 +1,26 @@
+<html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+    <div class="card">
+        <h5 class="card-header">Employee Form</h5>
+        <div class="card-body">
+            <form th:action="@{/employee/save}" method="post" th:object="${employee}">
+                <input id="id" name="employee_id" th:field="*{employee_id}" placeholder="id" type="text">
+                <input id="name" name="name" th:field="*{fullname}" placeholder="name" type="text" >
+                <input id="phone" name="phone" th:field="*{phone}" placeholder="phone" type="text" >
+                <input id="joindate" name="joindate" th:field="*{joindate}" placeholder="joindate" type="date" >
+                <input id="email" name="email" th:field="*{email}" placeholder="email" type="text" >
+                <select th:field="*{department}">
+                    <option th:each="department : ${departments}" th:value="${department.department_id}" 
+                    th:selected="${department.department_id}" th:text="${department.name}"></option>
+                </select>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+  
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous"> 
+    </head>
+    <body>
+        <div>
+            <div class="col-3 p-3 mb-2">
+                <a th:href="@{overtime/form}" class="btn btn-primary"><button type="button" class="btn btn-link">Edit</button></a>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">EMPLOYEE</th>
+                        <th scope="col">SCHEDULE</th>
+                        <th scope="col">TIPE</th>
+                        <th scope="col">ASSIGMENT</th>
+                        <th scope="col">STATUS</th>
+                        <th scope="col">START TIME</th>
+                        <th scope="col">END TIME</th>
+                        <th scope="col">ACTION</th>
+                    </tr>   
+                </thead>
+                <tbody>
+                    <tr th:each="overtime: ${overtimes}">
+                        <td th:text="${overtime.Submission_id}">
+                        <td th:text="${overtime.employee.fullname}">
+                        <td th:text="${overtime.overtimeSchedule.submit_date}">
+                        <td th:text="${overtime.overtimeType.name}">
+                        <td th:text="${overtime.Assignment}">
+                        <td th:text="${overtime.overtimeSchedule.overtimeStatus.name}">
+                        <td th:text="${overtime.start_time}">
+                        <td th:text="${overtime.end_time}">
+ 
+                        <td><a th:href="@{overtime/form/{id} (id = ${overtime.Submission_id})}">EDIT</a> | 
+                            <form th:action="@{overtime/delete/{id} (id = ${overtime.Submission_id})}" method="post">
+                                <div class="col">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </div>   
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

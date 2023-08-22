@@ -1,0 +1,19 @@
+<html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+    <div class="card">
+        <h5 class="card-header">Department Form</h5>
+        <div class="card-body">
+            <form th:action="@{/department/save}" method="post" th:object="${department}">
+                <input id="id" name="department_id" th:field="*{department_id}" placeholder="id" type="text">
+                <input id="name" name="name" th:field="*{name}" placeholder="name" type="text" >
+                <button type="submit">Submit</button>
+            </form> 
+        </div>
+     
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    </head>
+    <body>
+        <div>
+            <div class="col-3 p-3 mb-2">
+                <a th:href="@{overtimeSchedule/form}" class="btn btn-primary">CREATE</a>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">SUBMIT DATE</th>
+                        <th scope="col">STATUS</th>
+                        <th scope="col">ACTION</th>
+                    </tr>   
+                </thead>
+                <tbody>
+                    <tr th:each="overtimeSchedule: ${overtimeSchedules}">
+                        <td th:text="${overtimeSchedule.schedule_id}">
+                        <td th:text="${overtimeSchedule.submit_date}">
+                        <td th:text="${overtimeSchedule.overtimeStatus.status_id}">
+                        <td><a th:href="@{overtimeSchedule/form/{id} (id = ${overtimeSchedule.schedule_id})}"><button type="button" class="btn btn-link">Edit</button></a> | 
+                            <form th:action="@{overtimeSchedule/delete/{id} (id = ${overtimeSchedule.schedule_id})}" method="post">
+                                <div class="col">
+                                    <button type="submit">Delete</button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

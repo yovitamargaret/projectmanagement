@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <form th:action="@{/region/save}" method="post" th:object="${region}">
+      <input type="text" readonly th:field="*{region_id}" id="id">
+    <label for="name">Region Name : </label>
+    <input type="text" th:field="*{name}" id="name">
+    <input type="submit" value="Save Category">
+  </form>
+</body>
+</html>

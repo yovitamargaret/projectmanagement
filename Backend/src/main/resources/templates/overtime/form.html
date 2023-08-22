@@ -1,0 +1,46 @@
+<html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+    <div class="card">
+        <h5 class="card-header">Department Form</h5>
+        <div class="card-body">
+            <form th:action="@{/overtime/save}" method="post" th:object="${overtime}">
+                <input id="Submission_id" name="Submission_id" th:field="*{Submission_id}" placeholder="id" type="text">
+                
+                <select th:field="*{employee}">
+                    <option th:each="employee : ${employees}" th:value="${employee.employee_id}" 
+                    th:selected="${employee.employee_id}" th:text="${employee.fullname}"></option>
+                </select>
+    
+                
+                <select th:field="*{overtimeSchedule}">
+                    <option th:each="overtimeSchedule : ${overtimeSchedules}" th:value="${overtimeSchedule.schedule_id}" 
+                    th:selected="${overtimeSchedule.schedule_id}" th:text="${overtimeSchedule.submit_date}"></option>
+                </select>
+    
+                <select th:field="*{overtimeType}">
+                    <option th:each="overtimeType : ${overtimeTypes}" th:value="${overtimeType.type_id}" 
+                    th:selected="${overtimeType.type_id}" th:text="${overtimeType.name}"></option>
+                </select>
+    
+                <input id="Assignment" name="Assignment" th:field="*{Assignment}" placeholder="Assignment" type="text" >
+    
+                <select th:field="*{overtimeSchedule}">
+                    <option th:each="overtimeSchedule : ${overtimeSchedules}" th:value="${overtimeSchedule.overtimeStatus.status_id}" 
+                    th:selected="${overtimeSchedule.schedule_id}" th:text="${overtimeSchedule.overtimeStatus.name}"></option>
+                </select>
+                
+                <input id="start_time" name="start_time" th:field="*{start_time}" placeholder="start_time" type="datetime-local" >
+                <input id="end_time" name="end_time" th:field="*{end_time}" placeholder="end_time" type="datetime-local" >
+          
+    
+                <button type="submit">Submit</button>
+            </form>  
+        </div>
+
+    </div>
+    
+</body>
+</html>
