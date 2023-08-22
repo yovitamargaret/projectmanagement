@@ -21,7 +21,6 @@ public class EmployeeRestController {
     @Autowired
     private EmployeeService employeeService;
 
-
     @GetMapping("employee")
     public ResponseEntity<Object> get(){
         return Response.generate(HttpStatus.OK, "data has been succesfully retrieved", employeeService.Get());

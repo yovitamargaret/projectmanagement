@@ -46,10 +46,6 @@ public class UserRestController {
         }
         return Response.generate(HttpStatus.INTERNAL_SERVER_ERROR, "Data Gagal disimpan");
     }
-    // @PostMapping("user/forgot")
-    // public String forgotPassword(){
-    //     return "";
-    // }
 
     @PostMapping("user/forgot")
     public ResponseEntity<Object> forgotPassword(@RequestBody ForgotPasswordRequest forgotPasswordRequest) {

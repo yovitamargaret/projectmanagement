@@ -9,19 +9,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.demo.entities.Employee;
-import com.example.demo.services.DepartmentService;
 import com.example.demo.services.EmployeeService;
 
 @Controller
 @RequestMapping("employee")
 public class EmployeeController {
-
-    
     @Autowired
     private EmployeeService employeeService;
-
-    @Autowired
-    private DepartmentService departmentService;
 
     @GetMapping
     public String index(Model model){
@@ -32,11 +26,9 @@ public class EmployeeController {
     @GetMapping(value = {"form","form/{id}"})
     public String form(Model model, @PathVariable(required = false) Integer id){
         if(id !=null){
-            model.addAttribute("departments",departmentService.Get());
             model.addAttribute("employee", employeeService.Get(id));
 
         }else{
-            model.addAttribute("departments", departmentService.Get());
             model.addAttribute("employee", new Employee());
         }
         return "employee/form";
