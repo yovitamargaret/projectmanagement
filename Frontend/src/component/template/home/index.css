@@ -1,0 +1,152 @@
+.header{
+    background-color: rgb(33, 32, 32);
+    height: 60px;
+    text-align: center;
+
+}
+
+.label-header{
+    font-weight: bold;
+    font-size: 18;
+    color:white;
+    display: inline-block;
+    margin-top: 15px;
+}
+
+.label-goto{
+    font-weight: bold;
+    font-size: 18;
+    color:aqua;
+    margin-left: 5px;
+}
+
+.jumbotron{
+    background-color: #282c34;
+    height: 300px;
+    width: 100%;
+    max-width: 1500px;
+    justify-content: center;
+    align-items: center;
+}
+
+.jumbotronh1{
+    color: #61dafb;
+    text-align: center;
+    margin: 0;
+    font-size: 45px;
+    letter-spacing: 0.01em;
+    padding-top: 60px;
+
+}
+
+.jumbotronparagraph{
+    padding-top: 10px;
+    text-align: center;
+    font-size: 24px;
+    letter-spacing: 0.01em;
+    font-weight: 200;
+    color: white;
+}
+
+.jumbotronbutton{
+    display: inline-block;
+    font-size: 16px;
+    background-color: #61dafb;
+    text-align: center;
+    color: #000000;
+    white-space: nowrap;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    left: 450px; 
+    margin-top: 10px;
+
+}
+
+.jumbotronbutton:hover {
+  color: white; 
+}
+
+.jumbotronparagraph2{
+    display: inline-block;
+    text-align: center;
+    color: #000000;
+    white-space: nowrap;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-top: 15px;
+    font-size: 16px;
+    color: #61dafb;
+
+}
+.description{
+    padding-top: 80px;
+}
+
+.simplecomponent{
+    padding-top: 80px;
+}
+
+.simplecomponentcol1{
+    padding-top: 30px;
+}
+
+.getstarted{
+    background-color: #282c34;
+    height: 100px;
+    width: 100%;
+    max-width: 1500px;
+}
+
+.getstartedrow{
+    padding-top: 25px;
+}
+
+
+.custom-footer {
+    background-color: #20232a;
+  }
+  
+  .custom-footer .text-reset {
+    color: white;
+  }
+  
+  .custom-footer .text-reset:hover {
+    color: #61dafb; 
+  }
+
+  /* .mx-auto mb-4{
+    padding-left: 80px;
+  } */
+  
+  .text-reset{
+    color: white;
+  }
+
+.navbar.bg-body-tertiary {
+    background-color: #20232a !important; 
+  }
+
+.navbar.bg-body-tertiary .nav-link {
+    color: white !important; 
+  }
+  .navbar.bg-body-tertiary .nav-brand {
+    color: white !important; 
+  }
+  
+  
+@media screen and(max-width:330px){
+    .header{
+        height: 80px;
+    }
+}
+
+
+
+
+
+
+@media(max-width:388){
+
+}
