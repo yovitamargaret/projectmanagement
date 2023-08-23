@@ -24,28 +24,23 @@ public class ProjectRestController {
 
     @GetMapping("project")
     public ResponseEntity<Object> get(){
-        return Response.generate(HttpStatus.OK, "All Datas Retrieved", projectService.Get());
+        return Response.generate(HttpStatus.OK, "All data has been successfully retrieved", projectService.Get());
     }
 
     @GetMapping("project/{id}")
     public ResponseEntity<Object> get(@PathVariable(required = true) Integer id ){
-        return Response.generate(HttpStatus.OK,"Data retrieved", projectService.Get(id));
+        return Response.generate(HttpStatus.OK,"Data has been successfully retrieved", projectService.Get(id));
     }
 
     @PostMapping("project")
     public ResponseEntity<Object> save(@RequestBody Project project){
         projectService.Save(project);
-        return Response.generate(HttpStatus.OK, "Data has been saved");
+        return Response.generate(HttpStatus.OK, "Data has been succesfully saved");
     }
 
     @DeleteMapping("project/{id}")
     public ResponseEntity<Object> put(@PathVariable(required = true) Integer id) {
-        Boolean result = projectService.Delete(id);
-        if(result) {
-            return Response.generate(HttpStatus.OK,"data berhasil terhapus", HttpStatus.OK);
-        }
-        return Response.generate(HttpStatus.BAD_REQUEST, "data gagal terhapus" );
+        projectService.Delete(id);
+        return Response.generate(HttpStatus.OK,"Data has been succesfully deleted");
     }
-
-
 }

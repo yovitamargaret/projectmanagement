@@ -24,23 +24,23 @@ public class TaskDetailRestController {
 
     @GetMapping("task_detail")
     public ResponseEntity<Object> get(){
-        return Response.generate(HttpStatus.OK, "data has been succesfully retrieved", taskDetailService.Get());
+        return Response.generate(HttpStatus.OK, "All data has been successfully retrieved", taskDetailService.Get());
     }
 
     @GetMapping("task_detail/{id}")
     public ResponseEntity<Object> get(@PathVariable(required = true) Integer id){
-        return Response.generate(HttpStatus.OK, "data has been succesfully retrieved", taskDetailService.Get(id));
+        return Response.generate(HttpStatus.OK, "Data has been successfully retrieved", taskDetailService.Get(id));
     }
 
     @PostMapping("task_detail")
     public ResponseEntity<Object> save(@RequestBody TaskDetail task_detail){
         taskDetailService.Save(task_detail);
-        return Response.generate(HttpStatus.OK, "data has been succesfully saved");
+        return Response.generate(HttpStatus.OK, "Data has been succesfully saved");
     }
 
     @DeleteMapping("task_detail/{id}")
     public ResponseEntity<Object> delete(@PathVariable(required = true) Integer id){
         taskDetailService.Delete(id);
-        return Response.generate(HttpStatus.OK,"data has been succesfully deleted");
+        return Response.generate(HttpStatus.OK,"Data has been succesfully deleted");
     }
 }
