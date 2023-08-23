@@ -32,13 +32,13 @@ public class TaskDetailRestController {
         return Response.generate(HttpStatus.OK, "data has been succesfully retrieved", taskDetailService.Get(id));
     }
 
-    @PostMapping("task")
+    @PostMapping("task_detail")
     public ResponseEntity<Object> save(@RequestBody TaskDetail task_detail){
         taskDetailService.Save(task_detail);
         return Response.generate(HttpStatus.OK, "data has been succesfully saved");
     }
 
-    @DeleteMapping("task/{id}")
+    @DeleteMapping("task_detail/{id}")
     public ResponseEntity<Object> delete(@PathVariable(required = true) Integer id){
         taskDetailService.Delete(id);
         return Response.generate(HttpStatus.OK,"data has been succesfully deleted");
