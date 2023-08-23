@@ -19,13 +19,14 @@ public class Task {
     private Date start_date;
     private Date due_date;
     private String task_approval_status;
+    
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
 
     @OneToMany(mappedBy = "task")
     @JsonIgnore
-    private List<TaskDetail> task_details;
+    private List<TaskDetail> taskDetail;
 
     public Integer getTask_id() {
         return task_id;

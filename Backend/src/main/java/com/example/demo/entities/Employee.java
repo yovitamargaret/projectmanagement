@@ -1,5 +1,7 @@
 package com.example.demo.entities;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -19,6 +21,18 @@ public class Employee {
     private String email;
     @Column(name="phone_number")
     private String phone_number;
+
+    @OneToOne
+    @JoinColumn(name="employee_id")
+    private User user;
+
+    @OneToMany(mappedBy="employee")
+    @JsonIgnore
+    private List<TaskDetail> taskDetail;
+
+    @ManyToOne
+    @JoinColumn(name="team_id")
+    private Team team;
 
     public Integer getEmployee_id() {
         return employee_id;
@@ -49,5 +63,17 @@ public class Employee {
     }
     public void setPhone_number(String phonenumber) {
         this.phone_number = phonenumber;
+    }
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
+    }
+    public Team getTeam() {
+        return team;
+    }
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }

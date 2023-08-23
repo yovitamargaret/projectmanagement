@@ -14,7 +14,6 @@ public class TaskDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer task_detail_id;
-
     private String task_status;
 
     @ManyToOne
@@ -56,6 +55,4 @@ public class TaskDetail {
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
-
-
 }

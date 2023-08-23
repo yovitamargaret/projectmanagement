@@ -22,6 +22,10 @@ public class Team {
 
     @OneToMany(mappedBy = "team")
     @JsonIgnore
+    private List<Employee> employees;
+
+    @OneToMany(mappedBy = "team")
+    @JsonIgnore
     private List<Project> project;
     
     public Integer getTeam_id() {

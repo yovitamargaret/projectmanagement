@@ -1,6 +1,7 @@
 package com.example.demo.entities;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,7 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_tr_project")
@@ -27,6 +31,10 @@ public class Project {
     @ManyToOne
     @JoinColumn(name="team_id")
     private Team team;
+
+    @OneToMany(mappedBy="project")
+    @JsonIgnore
+    private List<Task> tasks;
 
     public Integer getProject_id() {
         return project_id;
@@ -76,6 +84,10 @@ public class Project {
     public void setProject_status(String project_status) {
         this.project_status = project_status;
     }
-
-
+    public Team getTeam() {
+        return team;
+    }
+    public void setTeam(Team team) {
+        this.team = team;
+    }
 }

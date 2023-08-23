@@ -24,29 +24,24 @@ public class TeamRestController {
 
     @GetMapping("team")
     public ResponseEntity<Object> get(){
-        return Response.generate(HttpStatus.OK, "All data has retrieved", teamService.Get());
+        return Response.generate(HttpStatus.OK, "All data has been successfully retrieved", teamService.Get());
     }
 
     @GetMapping("team/{id}")
     public ResponseEntity<Object> get(@PathVariable(required = true) Integer id){
-        return Response.generate(HttpStatus.OK, "Data Retrieved", teamService.Get(id));
+        return Response.generate(HttpStatus.OK, "Data has been successfully retrieved", teamService.Get(id));
     }
 
     @PostMapping("team")
     public ResponseEntity<Object> save(@RequestBody Team team){
         teamService.Save(team);
-        return Response.generate(HttpStatus.OK, "Data has been saved");
+        return Response.generate(HttpStatus.OK, "Data has been succesfully saved");
 
     }
 
     @DeleteMapping("team/{id}")
     public ResponseEntity<Object> put(@PathVariable(required = true) Integer id){
-        Boolean result = teamService.Delete(id);
-        if(result){
-            return Response.generate(HttpStatus.OK, "Data has been deleted", HttpStatus.OK);
-        }
-        return Response.generate(HttpStatus.BAD_REQUEST,"Data failed to delete");
-    }
-
-    
+        teamService.Delete(id);
+        return Response.generate(HttpStatus.OK, "Data has been succesfully deleted");
+    } 
 }

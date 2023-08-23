@@ -11,35 +11,35 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.entities.Employee;
+import com.example.demo.entities.Role;
 import com.example.demo.handler.Response;
-import com.example.demo.services.EmployeeService;
+import com.example.demo.services.RoleService;
 
 @RestController
 @RequestMapping("api")
-public class EmployeeRestController {
+public class RoleRestController {
     @Autowired
-    private EmployeeService employeeService;
+    private RoleService roleService;
 
-    @GetMapping("employee")
+    @GetMapping("role")
     public ResponseEntity<Object> get(){
-        return Response.generate(HttpStatus.OK, "All data has been successfully retrieved", employeeService.Get());
+        return Response.generate(HttpStatus.OK, "All data has been successfully retrieved", roleService.Get());
     }
 
-    @GetMapping("employee/{id}")
-    public ResponseEntity<Object> get(@PathVariable(required = true) Integer id){
-        return Response.generate(HttpStatus.OK, "Data has been successfully retrieved", employeeService.Get(id));
+    @GetMapping("role/{id}")
+    public ResponseEntity<Object> get(@PathVariable(required = true) Integer id ){
+        return Response.generate(HttpStatus.OK,"Data has been successfully retrieved", roleService.Get(id));
     }
 
-    @PostMapping("employee")
-    public ResponseEntity<Object> save(@RequestBody Employee employee){
-        employeeService.Save(employee);
+    @PostMapping("role")
+    public ResponseEntity<Object> save(@RequestBody Role role){
+        roleService.Save(role);
         return Response.generate(HttpStatus.OK, "Data has been succesfully saved");
     }
 
-    @DeleteMapping("employee/{id}")
-    public ResponseEntity<Object> delete(@PathVariable(required = true) Integer id){
-        employeeService.Delete(id);
+    @DeleteMapping("role/{id}")
+    public ResponseEntity<Object> put(@PathVariable(required = true) Integer id) {
+        roleService.Delete(id);
         return Response.generate(HttpStatus.OK,"Data has been succesfully deleted");
     }
 }
