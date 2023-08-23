@@ -3,10 +3,12 @@ package com.example.demo.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.example.demo.entities.TaskDetail;
 import com.example.demo.repositories.TaskDetailRepository;
 
+@Service
 public class TaskDetailServiceImpl implements TaskDetailService{
     @Autowired
     private TaskDetailRepository taskDetailRepository;
