@@ -10,6 +10,9 @@ import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import NotFound from './component/page/errorPage/404';
 import Layout from './component/page/layout';
+import Register from './component/page/register/register';
+import Login from './component/page/login/login';
+import Employee from './component/page/employee/employee';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -27,9 +30,10 @@ root.render(
         <Route path='/' element={<Layout/>}>
           <Route index element={<Home/>}/>
           <Route path='region' element={<Region/>}/>
+          <Route path='employee' element={<Employee/>}/>
+          <Route path='login' element={<Login/>}/>
+          <Route path='register' element={<Register/>}/>
           <Route path='*' element={<NotFound/>}/>
-
-
         </Route>
       </Routes>
     </BrowserRouter>
