@@ -35,7 +35,7 @@ public class Project {
     @OneToMany(mappedBy="project")
     @JsonIgnore
     private List<Task> tasks;
-
+    
     public Integer getProject_id() {
         return project_id;
     }

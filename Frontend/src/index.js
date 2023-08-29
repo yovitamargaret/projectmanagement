@@ -22,7 +22,7 @@ root.render(
 
   <Provider store = {store}>
     {/* <App></App> */}
-    <BrowserRouter>
+    {/* <BrowserRouter>
       <Routes>
         <Route path='/' element={<Layout/>}>
           <Route index element={<Home/>}/>
@@ -32,7 +32,8 @@ root.render(
 
         </Route>
       </Routes>
-    </BrowserRouter>
+    </BrowserRouter> */}
+    <Home></Home>
   </Provider>
 );
 
