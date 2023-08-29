@@ -35,5 +35,15 @@ public class TaskServiceImpl implements TaskService{
         taskRepository.deleteById(id);
         return !taskRepository.findById(id).isPresent();
     }
+
+    @Override
+    public Integer findIdByAll(String name, Integer project_id, String description) {
+        return taskRepository.findIdByAll(name, project_id, description);
+    }
+
+    @Override
+    public Integer findLastId() {
+        return taskRepository.findLastId();
+    }
     
 }
