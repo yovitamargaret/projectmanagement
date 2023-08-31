@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,14 +19,18 @@ import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.RegisterRequest;
 import com.example.demo.handler.Response;
 import com.example.demo.services.AccountService;
+import com.example.demo.services.EmployeeService;
 
 @RestController
 @RequestMapping("api")
+@CrossOrigin
 public class UserRestController {
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private EmployeeService employeeService;
     @PostMapping("user/login")
     public ResponseEntity<Object> login( @RequestBody LoginRequest loginValue){
         Authentication authentication = authenticationManager
@@ -33,7 +38,7 @@ public class UserRestController {
                 loginValue.getEmail(), loginValue.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         if (authentication.isAuthenticated()) {
-            return Response.generate(HttpStatus.OK, "Login Successful");
+            return Response.generate(HttpStatus.OK, "Login Successful", employeeService.Get(employeeService.findIdByEmail(loginValue.getEmail())));
         }
         return Response.generate(HttpStatus.UNAUTHORIZED, "Login Gagal");
         

@@ -13,6 +13,10 @@ import Sidebar from './component/organism/sidebar';
 import BrandExample from './component/organism/navbar';
 import Home from './component/template/home';
 import ProjectApprovePage from './component/template/approval_project';
+import Register from './component/page/register/register';
+import Login from './component/page/login/login';
+import Employee from './component/page/employee/employee';
+import ForgotPassword from './component/page/forgotPassword/forgotPassword';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
