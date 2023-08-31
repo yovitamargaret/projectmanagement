@@ -28,6 +28,7 @@ public class AppSecurityConfig {
                 auth
                     .antMatchers("/api/employee/**").permitAll()
                     .antMatchers("/api/project/**").permitAll()
+                    .antMatchers("/project/**").permitAll()
                     .antMatchers("/api/role/**").permitAll()
                     .antMatchers("/api/task_detail/**").permitAll()
                     .antMatchers("/api/task/**").permitAll()

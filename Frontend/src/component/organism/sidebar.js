@@ -1,5 +1,4 @@
 import React from 'react';
-import * as Icon from 'react-bootstrap-icons';
 import {
   CDBSidebar,
   CDBSidebarContent,
@@ -8,22 +7,25 @@ import {
   CDBSidebarMenu,
   CDBSidebarMenuItem,
 } from 'cdbreact';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
+
 
 let Sidebar = ()=>{
     return(
-        <div style={{ display: 'flex', height: '100vh', overflow: 'scroll initial' }}>
-        <CDBSidebar textColor="#fff" backgroundColor="#333">
+        <CDBSidebar textColor="#fff" backgroundColor="#333" fixed>
           <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
             <a href="/" className="text-decoration-none" style={{ color: 'inherit' }}>
               Sidebar
-            </a>
+            </a>  
           </CDBSidebarHeader>
   
           <CDBSidebarContent className="sidebar-content">
             <CDBSidebarMenu>
               <NavLink exact to="/" activeClassName="activeClicked">
-                <CDBSidebarMenuItem icon="columns">Dashboard</CDBSidebarMenuItem>
+                <CDBSidebarMenuItem icon="columns">Home</CDBSidebarMenuItem>
+              </NavLink>
+              <NavLink exact to="/approval_project" activeClassName="activeClicked">
+                <CDBSidebarMenuItem icon="check">Approve Projects</CDBSidebarMenuItem>
               </NavLink>
               <NavLink exact to="/" activeClassName="activeClicked">
                 <CDBSidebarMenuItem icon="table">Tables</CDBSidebarMenuItem>
@@ -51,7 +53,7 @@ let Sidebar = ()=>{
             </div>
           </CDBSidebarFooter>
         </CDBSidebar>
-      </div>
+   
     )
 }
 export default Sidebar;

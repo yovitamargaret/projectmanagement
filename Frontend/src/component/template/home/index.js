@@ -8,12 +8,12 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import { App } from '../../organism/gantt';
 
 
 
 let Home = ()=>{
     return(  
-      <Router>
       <div className='d-flex'>
         <div className='w-auto'>
             <Sidebar/>
@@ -23,6 +23,7 @@ let Home = ()=>{
             <div className='row'>
                 <div className='col'>
                   <Card/>
+                  <App/>
                 </div>  
 
             </div>
@@ -33,7 +34,6 @@ let Home = ()=>{
 
       </div>
       
-    </Router>
     )
 }
 export default Home;
