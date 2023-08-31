@@ -5,29 +5,50 @@ import Board from 'react-trello'
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Card from 'react-bootstrap/Card';
 
 let Task = () =>{
     const [ data, setData] = useState([{}]);
+    const [ dataRequestTask, setDataRequestTask] = useState([{}]);
     const [ employeeData, setEmployeeData] = useState([{}]);
     const [task_id,setTask_id] =useState(0);
+    const [task_detail_id,setTaskDetail_id] =useState(0);
+    const [project_id,setProject_id] =useState(0);
     const [employee_id,setEmployee_id] =useState(0);
     const [status,setStatus] =useState(false);
     const [show, setShow] = useState(false);
+    const [showRequestedTask, setShowRequestedTask] = useState(false);
+    const [selectedTask, setSelectedTask] = useState(null);
 
     const [task_title,setTask_title] =useState("");
     const [desc,setDesc] =useState("");
     const [start_date,setStart_date] =useState("");
     const [due_date,setDue_date] =useState("");
-    
+    const [task_approval_status,setTaskApprovalStatus] =useState("");
+    const [task_status,setTaskStatus] =useState("");
+
     const handleClose = () =>{
       setShow(false);
+      setSelectedTask(null);
+      // setShowEdit(false);
       setTask_title("");
+      setTaskDetail_id(0);
+      setTask_id(0);
+      setProject_id(0);
       setDesc("");
       setStart_date("");
       setDue_date("");
       setEmployee_id(0);
   } 
-  const handleShow = () => setShow(true);
+  const handleShow = () => {
+    setShow(true)
+  };
+  const requestTaskHandleClose = () =>{
+      setShowRequestedTask(false);
+  } 
+  const requestTaskHandleShow = () => {
+      setShowRequestedTask(true)
+  };
 
     const data_board = {
         lanes: [
@@ -100,7 +121,7 @@ let Task = () =>{
   
   let onCardDelete=(cardId)=>{
       axios({
-          method: 'DELETE',
+          method: 'Get',
           headers: {
             'Content-Type': 'application/json',
           },
@@ -108,12 +129,79 @@ let Task = () =>{
         })
           .then((response) => {
             if (response.data.status === 200) {
-              setStatus(true);
+              // setTask_id(response.data.data.task.task_id)
+              // console.log(response)
+              axios({
+                method: 'DELETE',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                url: `http://localhost:8088/api/task_detail/${cardId}`,
+              })
+                .then((response) => {
+                  if (response.data.status === 200) {
+                    setStatus(true);
+                    // setTask_id(response.data.data.task.task_id)
+                  }
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+
+              axios({
+                method: 'DELETE',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                url: `http://localhost:8088/api/task/${response.data.data.task.task_id}`,
+              })
+                .then((response) => {
+                  if (response.data.status === 200) {
+                    setStatus(true);
+                  }
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+
             }
           })
           .catch((error) => {
             console.log(error);
           });
+
+      // axios({
+      //     method: 'DELETE',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //     url: `http://localhost:8088/api/task_detail/${cardId}`,
+      //   })
+      //     .then((response) => {
+      //       if (response.data.status === 200) {
+      //         setStatus(true);
+      //         // setTask_id(response.data.data.task.task_id)
+      //       }
+      //     })
+      //     .catch((error) => {
+      //       console.log(error);
+      //     });
+
+      // axios({
+      //     method: 'DELETE',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //     url: `http://localhost:8088/api/task/${task_id}`,
+      //   })
+      //     .then((response) => {
+      //       if (response.data.status === 200) {
+      //         setStatus(true);
+      //       }
+      //     })
+      //     .catch((error) => {
+      //       console.log(error);
+      //     });
   }
 
   let onCardClick=(cardId)=>{
@@ -127,13 +215,26 @@ let Task = () =>{
       .then((response) => {
         if (response.data.status === 200) {
           // setStatus(true);
-          console.log(response)
+          // console.log(response)
+          setSelectedTask(response.data.data)
           setTask_id(response.data.data.task.task_id)
+          setTaskDetail_id(response.data.data.task_detail_id)
           setTask_title(response.data.data.task.name)
           setDesc(response.data.data.task.description)
-          setStart_date(response.data.data.task.start_date)
-          setDue_date(response.data.data.task.due_date)
           setEmployee_id(response.data.data.employee.employee_id)
+          setProject_id(response.data.data.task.project.project_id)
+          setTaskApprovalStatus(response.data.data.task.task_approval_status)
+          setTaskStatus(response.data.data.task_status)
+          const selectedStartDate = new Date(response.data.data.task.start_date);
+          const formattedStartDate = `${selectedStartDate.getFullYear()}-${(selectedStartDate.getMonth() + 1)
+                .toString()
+                .padStart(2, '0')}-${selectedStartDate.getDate().toString().padStart(2, '0')}`;
+          setStart_date(formattedStartDate)
+          const selectedDueDate = new Date(response.data.data.task.due_date);
+          const formattedDueDate = `${selectedDueDate.getFullYear()}-${(selectedDueDate.getMonth() + 1)
+                .toString()
+                .padStart(2, '0')}-${selectedDueDate.getDate().toString().padStart(2, '0')}`;
+          setDue_date(formattedDueDate)
           setShow(true)
         }
       })
@@ -146,7 +247,7 @@ let Task = () =>{
     handleClose();
 
     let data_task = {
-        // "task_id": id,
+        "task_id": task_id,
         
         // "employee": {"employee_id":employee_id},
         // "task": {
@@ -180,7 +281,7 @@ let Task = () =>{
                 // setStatus(true);
 
                 let data_taskdetail = {
-                  // "task_id": id,
+                  "task_detail_id": task_detail_id,
                   "employee": {"employee_id":employee_id},
                   "task": {"task_id":response.data.data},
                   "task_status": "Not Started"
@@ -194,7 +295,7 @@ let Task = () =>{
                   data:JSON.stringify(data_taskdetail)
                 }).then((response)=>{
                   if(response.data.status === 200){
-                    console.log(response)
+                    // console.log(response)
                     setStatus(true)
                   }
                 }).catch((error)=> {
@@ -202,7 +303,7 @@ let Task = () =>{
                 })
 
 
-                console.log(response.data.data)
+                // console.log(response.data.data)
             }
         }).catch((error) => {
          console.log(error)
@@ -213,11 +314,73 @@ let Task = () =>{
     })
 }
 
+const onSubmitEdit = () => {
+  handleClose();
+
+  let data_task = {
+      "task_id": task_id,
+      
+      // "employee": {"employee_id":employee_id},
+      // "task": {
+        "name": task_title,
+        "description": desc,
+        "start_date": start_date,
+        "due_date": due_date,
+        "task_approval_status":task_approval_status,
+        "project": {"project_id":project_id},
+      // },
+      // "task_status": "Not Started"
+  }
+
+  axios({
+      method :"POST",
+      headers: {
+          'Content-Type' : 'application/json',
+        },
+      data:JSON.stringify(data_task),
+      url: "http://localhost:8088/api/task",
+    }).then((response)=>{
+      if(response.data.status === 200){
+        // console.log(response)
+        let data_taskdetail = {
+          "task_detail_id": task_detail_id,
+          "employee": {"employee_id":employee_id},
+          "task": {"task_id":task_id},
+          "task_status": task_status
+        }
+        axios({
+          method :"POST",
+          headers: {
+              'Content-Type' : 'application/json',
+          },
+          url: "http://localhost:8088/api/task_detail",
+          data:JSON.stringify(data_taskdetail)
+        }).then((response)=>{
+          if(response.data.status === 200){
+            // console.log(response)
+            setStatus(true)
+          }
+        }).catch((error)=> {
+          console.log(error)
+        })
+      }
+        }).catch((error)=> {
+            console.log(error)
+        })
+}
+
   let diffDate=(due_date)=>{
     const now = new Date();
     let end_date = new Date(due_date)
     const oneDay = (1000*60*60*24);
-    let result = Math.round(Math.abs((end_date - now) / oneDay))+" day(s) remaining"
+    let result = Math.round((end_date - now) / oneDay)
+    if (result<0){
+      result =Math.abs(result)+" day(s) overdue" 
+    }else if(result===0){
+      result ="Deadline Today"
+    }else{
+      result =result+" day(s) remaining" 
+    }
     return result
   }
 
@@ -244,7 +407,7 @@ let Task = () =>{
     },[status])
     
     const { lanes } = data_board;
-    data.filter(x=>x.task_status==="Not Started").map((x,index)=>{
+    data.filter(x=>x.task_status==="Not Started"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===2).map((x,index)=>{
         lanes[0].cards.push({
           id: x.task_detail_id.toString(),
           title: x.task.name,
@@ -259,7 +422,7 @@ let Task = () =>{
           label: diffDate(x.task.due_date)
       });
     })
-    data.filter(x=>x.task_status==="Ongoing").map(x=>{
+    data.filter(x=>x.task_status==="Ongoing"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===2).map(x=>{
       lanes[1].cards.push({
           id: x.task_detail_id.toString(),
           title: x.task.name,
@@ -274,7 +437,7 @@ let Task = () =>{
           label: diffDate(x.task.due_date)
       });
     })
-    data.filter(x=>x.task_status==="Done").map(x=>{
+    data.filter(x=>x.task_status==="Done"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===2).map(x=>{
       lanes[2].cards.push({
         id: x.task_detail_id.toString(),
         title: x.task.name,
@@ -291,7 +454,7 @@ let Task = () =>{
         // label: x.task.due_date
       });
     })
-    data.filter(x=>x.task_status==="Bug").map(x=>{
+    data.filter(x=>x.task_status==="Bug"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===2).map(x=>{
       lanes[3].cards.push({
         id: x.task_detail_id.toString(),
         title: x.task.name,
@@ -307,25 +470,97 @@ let Task = () =>{
       });
     })
 
-    lanes[0].label=data.filter(x=>x.task_status==="Not Started").length.toString();
-    lanes[1].label=data.filter(x=>x.task_status==="Ongoing").length.toString();
-    lanes[2].label=data.filter(x=>x.task_status==="Done").length.toString();
-    lanes[3].label=data.filter(x=>x.task_status==="Bug").length.toString();
+    lanes[0].label=data.filter(x=>x.task_status==="Not Started" && x.task.task_approval_status ==="Approved" && x.task.project.project_id ===2).length.toString();
+    lanes[1].label=data.filter(x=>x.task_status==="Ongoing"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===2).length.toString();
+    lanes[2].label=data.filter(x=>x.task_status==="Done"&& x.task.task_approval_status ==="Approved" && x.task.project.project_id ===2).length.toString();
+    lanes[3].label=data.filter(x=>x.task_status==="Bug"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===2).length.toString();
+
+
+    let approveTask=(task_id)=>{
+      axios({
+          method:"GET",
+          url: `http://localhost:8088/api/task/${task_id}`,
+      }).then((response) => {
+          let dataApprove={
+            "task_id":response.data.data.task_id,
+            "name":response.data.data.name,
+            "description":response.data.data.description,
+            "start_date":response.data.data.start_date,
+            "due_date":response.data.data.due_date,
+            "task_approval_status":"Approved",
+            "project":{"project_id":response.data.data.project.project_id},
+          }
+          axios({
+              method:"POST",
+              url: `http://localhost:8088/api/task`,
+              headers: {
+                'Content-Type' : 'application/json',
+              },
+              data:JSON.stringify(dataApprove),
+          }).then((response) => {
+              setShowRequestedTask(false)
+              setStatus(true)
+              // console.log(response)
+          }).catch((error) => {
+          console.log(error)
+          })
+      }).catch((error) => {
+      console.log(error)
+      })
+    }
+
+    let rejectTask=(task_id)=>{
+      axios({
+        method:"GET",
+        url: `http://localhost:8088/api/task/${task_id}`,
+    }).then((response) => {
+        let dataReject={
+          "task_id":response.data.data.task_id,
+          "name":response.data.data.name,
+          "description":response.data.data.description,
+          "start_date":response.data.data.start_date,
+          "due_date":response.data.data.due_date,
+          "task_approval_status":"Rejected",
+          "project":{"project_id":response.data.data.project.project_id},
+        }
+        axios({
+            method:"POST",
+            url: `http://localhost:8088/api/task`,
+            headers: {
+              'Content-Type' : 'application/json',
+            },
+            data:JSON.stringify(dataReject),
+        }).then((response) => {
+            setShowRequestedTask(false)
+            setStatus(true)
+            // console.log(response)
+        }).catch((error) => {
+        console.log(error)
+        })
+    }).catch((error) => {
+    console.log(error)
+    })
+    }
 
     return(
       <div>
-        <button onClick={handleShow}>CREATE</button>
+        <Button variant="primary" onClick={handleShow}>Create Task</Button>
+        <Button variant="primary" onClick={requestTaskHandleShow}>Requested Task</Button>
 
-        <Board editable data={data_board} onCardDelete={onCardDelete} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} onCardClick={onCardClick}/>
+        <Board data={data_board} onCardDelete={onCardDelete} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} onCardClick={onCardClick}/>
 
         <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-        <Modal.Title>{'Create/Request Task'}</Modal.Title>
+        <Modal.Title>{selectedTask ? 'Edit Task' : 'Create/Request Task'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
         <Form.Group className="mb-3" controlId="task_id">
           {/* <Form.Label>Task Id</Form.Label> */}
-          <Form.Control name="task_detail_id" placeholder="Task Id" type="hidden" value={task_id} onChange={e=> setTask_id(e.targer.value)}  />
+          <Form.Control name="task_id" placeholder="Task Id" type="hidden" value={task_id} onChange={e=> setTask_id(e.target.value)}  />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="task_detail_id">
+          {/* <Form.Label>Task Id</Form.Label> */}
+          <Form.Control name="task_detail_id" placeholder="Task Detail Id" type="hidden" value={task_detail_id} onChange={e=> setTaskDetail_id(e.target.value)}  />
         </Form.Group>
         <Form.Group className="mb-3" controlId="task_title">
           <Form.Label>Task Title</Form.Label>
@@ -337,11 +572,23 @@ let Task = () =>{
         </Form.Group>
         <Form.Group className="mb-3" controlId="start_date">
           <Form.Label>Start Date</Form.Label>
-          <Form.Control name="start_date"  type="date" value={start_date} onChange={e=> setStart_date(e.target.value)}  />
+          <Form.Control name="start_date"  type="date" value={start_date} onChange={e=>{
+            const selectedStartDate = new Date(e.target.value);
+            const formattedStartDate = `${selectedStartDate.getFullYear()}-${(selectedStartDate.getMonth() + 1)
+                .toString()
+                .padStart(2, '0')}-${selectedStartDate.getDate().toString().padStart(2, '0')}`;
+            setStart_date(formattedStartDate);
+          }}  />
         </Form.Group>
         <Form.Group className="mb-3" controlId="due_date">
           <Form.Label>Due Date</Form.Label>
-          <Form.Control name="due_date" type="date" value={due_date} onChange={e=> setDue_date(e.target.value)}  />
+          <Form.Control name="due_date" type="date" value={due_date} onChange={e=> {
+            const selectedDate = new Date(e.target.value);
+            const formattedDate = `${selectedDate.getFullYear()}-${(selectedDate.getMonth() + 1)
+                .toString()
+                .padStart(2, '0')}-${selectedDate.getDate().toString().padStart(2, '0')}`;
+            setDue_date(formattedDate);
+            }}  />
         </Form.Group>
         <Form.Group className="mb-3" controlId="employee">
           <Form.Label>Assign Employee</Form.Label>
@@ -359,11 +606,47 @@ let Task = () =>{
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="success" onClick={onSubmit}>
-          {'Create'}
+          <Button variant="success" onClick={selectedTask ? onSubmitEdit :onSubmit}>
+          {selectedTask ? 'Save Changes' : 'Create'}
           </Button>
         </Modal.Footer>
       </Modal>
+          
+
+      <Modal show={showRequestedTask} onHide={requestTaskHandleClose} size="lg">
+        <Modal.Header closeButton>
+          <Modal.Title>Requested Task</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {data.filter(x=> x.task?.task_approval_status ==="Pending" && x.task?.project?.project_id ===2).map(x=>{
+            return(
+                <Card key={x.task?.task_detail_id}>
+                <Card.Body>
+                  <Card.Title>{x.task?.name}</Card.Title>
+                    <br/>
+                  <Card.Text>
+                    {x.task?.description}
+                    <br/>
+                    Start Date : {x.task?.start_date}
+                    <br/>
+                    Due Date : {x.task?.due_date}
+                    <br/>
+                    Assigned Employee : {x.employee?.name}
+                  </Card.Text>
+                    <Button variant="danger" onClick={()=>rejectTask(x.task?.task_id)}>Reject</Button>
+                    <Button variant="primary" onClick={()=>approveTask(x.task?.task_id)}>Approve</Button>
+                </Card.Body>
+              </Card>
+            )
+          })}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={requestTaskHandleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
       </div>
     )
 }
