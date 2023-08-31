@@ -157,7 +157,7 @@ return (
                             <td>{x.address}</td>
                             <td>{x.email}</td>
                             <td>{x.phone_number}</td>
-                            <td>{x.team.name}</td>
+                            <td>{x.team?.name}</td>
                             <td>
                                 <Button variant="secondary" onClick={() => Edit(x)}>Edit</Button>
                                 <Button variant="danger" onClick={() => Delete(x.employee_id)}>Delete</Button>

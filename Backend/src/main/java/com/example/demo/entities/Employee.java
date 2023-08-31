@@ -22,9 +22,9 @@ public class Employee {
     @Column(name="phone_number")
     private String phone_number;
 
-    @OneToOne
-    @JoinColumn(name="employee_id")
-    private User user;
+    // @OneToOne
+    // @JoinColumn(name="employee_id")
+    // private User user;
 
     @OneToMany(mappedBy="employee")
     @JsonIgnore
@@ -64,12 +64,12 @@ public class Employee {
     public void setPhone_number(String phonenumber) {
         this.phone_number = phonenumber;
     }
-    public User getUser() {
-        return user;
-    }
-    public void setUser(User user) {
-        this.user = user;
-    }
+    // public User getUser() {
+    //     return user;
+    // }
+    // public void setUser(User user) {
+    //     this.user = user;
+    // }
     public Team getTeam() {
         return team;
     }

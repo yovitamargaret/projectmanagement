@@ -23,7 +23,7 @@ let Login = () => {
         }).then((response)=>{
             if(response.data.status === 200){
                 setStatus(!status)
-                console.log("Login Success!");
+                console.log("Hello, " + response.data.data.name);
             }
             else{
                 console.log("Login Failed!");
@@ -47,6 +47,7 @@ let Login = () => {
                 </tr>
             </table>
             <button onClick={() => SubmitLogin()}>Login</button><br></br>
+            <button><Link to={"/forgotpassword"}>Forgot Password</Link></button><br></br>
         </>
     )
 }

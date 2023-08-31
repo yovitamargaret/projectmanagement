@@ -22,28 +22,31 @@ public class AccountServiceImpl implements AccountService{
     
     @Override
     public Boolean register(RegisterRequest registerRequest) {
-        Employee employee =new Employee();
-        employee.setEmail(registerRequest.getEmail());
+        Employee employee = new Employee();
         employee.setName(registerRequest.getName());
-        employee.setPhone_number("0000000000");
-        employee.setAddress("Jln. ke dunia IT");
+        employee.setEmail(registerRequest.getEmail());
+        employee.setAddress(registerRequest.getAddress());
+        employee.setPhone_number(registerRequest.getPhone_number());
+        Integer employeeId = employeeService.findIdByEmail(registerRequest.getEmail());
+        if (employeeId == null) {
+            Boolean resultEmployee= employeeService.Save(employee);
+            if (resultEmployee) {
+                employeeId = employeeService.findIdByEmail(registerRequest.getEmail());
+                User user = new User();
+                user.setUser_id(employeeId);
+                Role role = new Role();
+                role.setRole_id(1);
+                user.setRole(role);
+                user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
 
-        // insert to employee
-        Boolean resultEmployee= employeeService.Save(employee);
-        if (resultEmployee) {
-            // insert to user
-            Integer employee_id = employeeService.findIdByEmail(registerRequest.getEmail());
-            User user = new User();
-            user.setUser_id(employee_id);
-            Role role=new Role();
-            role.setRole_id(1);
-            user.setRole(role);
-            user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-
-            Boolean resultUser=userService.Save(user);
-            return resultUser;
+                Boolean resultUser = userService.Save(user);
+                return resultUser;
+            }
+            return resultEmployee;
         }
-        return resultEmployee;
+        else {
+            return false;
+        }
     }
 
     @Override
@@ -53,7 +56,7 @@ public class AccountServiceImpl implements AccountService{
         userService.Get(employee_id);
         if (employee_id != null && passwordEncoder.matches(changePasswordRequest.getCurrentPassword(), user.getPassword())) {
             user.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
-            Boolean resultUser=userService.Save(user);
+            Boolean resultUser = userService.Save(user);
             return resultUser;
         }
 
@@ -63,25 +66,24 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public Boolean resetPassword(ForgotPasswordRequest forgotPasswordRequest) {
         Integer employee_id = employeeService.findIdByEmail(forgotPasswordRequest.getEmail());
-        User user = new User();
-        userService.Get(employee_id);
+        
         if(employee_id == null){
             return false;
         }
 
-        String newPassword = generateRandomPassword();
+        User user = userService.Get(employee_id);
+        String newPassword = resetPassword();
         String encodedPassword = passwordEncoder.encode(newPassword);
         user.setPassword(encodedPassword);
-        Boolean resultUser=userService.Save(user);
+        Boolean resultUser = userService.Save(user);
         
         return resultUser;
     }
 
-    private String generateRandomPassword() {
-        return "pasword12345";
+    private String resetPassword() {
+        return "password12345";
     }
-
-    }
+}
 
  
 

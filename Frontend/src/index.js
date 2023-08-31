@@ -13,6 +13,7 @@ import Layout from './component/page/layout';
 import Register from './component/page/register/register';
 import Login from './component/page/login/login';
 import Employee from './component/page/employee/employee';
+import ForgotPassword from './component/page/forgotPassword/forgotPassword';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -25,7 +26,7 @@ root.render(
 
   <Provider store = {store}>
     {/* <App></App> */}
-    {/* <BrowserRouter>
+    <BrowserRouter>
       <Routes>
         <Route path='/' element={<Layout/>}>
           <Route index element={<Home/>}/>
@@ -33,11 +34,11 @@ root.render(
           <Route path='employee' element={<Employee/>}/>
           <Route path='login' element={<Login/>}/>
           <Route path='register' element={<Register/>}/>
+          <Route path='forgotpassword' element={<ForgotPassword/>}/>
           <Route path='*' element={<NotFound/>}/>
         </Route>
       </Routes>
-    </BrowserRouter> */}
-    <Home></Home>
+    </BrowserRouter>
   </Provider>
 );
 
