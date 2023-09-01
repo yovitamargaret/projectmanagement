@@ -8,7 +8,8 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 
-let Task = () =>{
+let Task = (props) =>{
+   const project=props.project;
     const [ data, setData] = useState([{}]);
     const [ dataRequestTask, setDataRequestTask] = useState([{}]);
     const [ employeeData, setEmployeeData] = useState([{}]);
@@ -257,7 +258,7 @@ let Task = () =>{
           "start_date": start_date,
           "due_date": due_date,
           "task_approval_status":"Pending",
-          "project": {"project_id":2},
+          "project": {"project_id":project},
         // },
         // "task_status": "Not Started"
     }
@@ -408,7 +409,7 @@ const onSubmitEdit = () => {
     },[status])
     
     const { lanes } = data_board;
-    data.filter(x=>x.task_status==="Not Started"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===2).map((x,index)=>{
+    data.filter(x=>x.task_status==="Not Started"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===project).map((x,index)=>{
         lanes[0].cards.push({
           id: x.task_detail_id.toString(),
           title: x.task.name,
@@ -423,7 +424,7 @@ const onSubmitEdit = () => {
           label: diffDate(x.task.due_date)
       });
     })
-    data.filter(x=>x.task_status==="Ongoing"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===2).map(x=>{
+    data.filter(x=>x.task_status==="Ongoing"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===project).map(x=>{
       lanes[1].cards.push({
           id: x.task_detail_id.toString(),
           title: x.task.name,
@@ -438,7 +439,7 @@ const onSubmitEdit = () => {
           label: diffDate(x.task.due_date)
       });
     })
-    data.filter(x=>x.task_status==="Done"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===2).map(x=>{
+    data.filter(x=>x.task_status==="Done"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===project).map(x=>{
       lanes[2].cards.push({
         id: x.task_detail_id.toString(),
         title: x.task.name,
@@ -455,7 +456,7 @@ const onSubmitEdit = () => {
         // label: x.task.due_date
       });
     })
-    data.filter(x=>x.task_status==="Bug"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===2).map(x=>{
+    data.filter(x=>x.task_status==="Bug"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===project).map(x=>{
       lanes[3].cards.push({
         id: x.task_detail_id.toString(),
         title: x.task.name,
@@ -471,10 +472,10 @@ const onSubmitEdit = () => {
       });
     })
 
-    lanes[0].label=data.filter(x=>x.task_status==="Not Started" && x.task.task_approval_status ==="Approved" && x.task.project.project_id ===2).length.toString();
-    lanes[1].label=data.filter(x=>x.task_status==="Ongoing"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===2).length.toString();
-    lanes[2].label=data.filter(x=>x.task_status==="Done"&& x.task.task_approval_status ==="Approved" && x.task.project.project_id ===2).length.toString();
-    lanes[3].label=data.filter(x=>x.task_status==="Bug"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===2).length.toString();
+    lanes[0].label=data.filter(x=>x.task_status==="Not Started" && x.task.task_approval_status ==="Approved" && x.task.project.project_id ===project).length.toString();
+    lanes[1].label=data.filter(x=>x.task_status==="Ongoing"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===project).length.toString();
+    lanes[project].label=data.filter(x=>x.task_status==="Done"&& x.task.task_approval_status ==="Approved" && x.task.project.project_id ===project).length.toString();
+    lanes[3].label=data.filter(x=>x.task_status==="Bug"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===project).length.toString();
 
 
     let approveTask=(task_id)=>{
@@ -549,7 +550,7 @@ const onSubmitEdit = () => {
         <Button variant="primary" onClick={requestTaskHandleShow}>Requested Task</Button>
 
         <Board 
-        style={{height:350}} 
+        style={{height:315}} 
         data={data_board} 
         onCardDelete={onCardDelete} 
         handleDragStart={handleDragStart} 
@@ -629,7 +630,7 @@ const onSubmitEdit = () => {
           <Modal.Title>Requested Task</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {data.filter(x=> x.task?.task_approval_status ==="Pending" && x.task?.project?.project_id ===2).map(x=>{
+          {data.filter(x=> x.task?.task_approval_status ==="Pending" && x.task?.project?.project_id ===project).map(x=>{
             return(
                 <Card key={x.task?.task_detail_id}>
                 <Card.Body>

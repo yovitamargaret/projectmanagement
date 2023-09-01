@@ -2,14 +2,15 @@
     height: 1vh;
 }
 .gantt{
-    height: 0.5vh;
+    height: 200px;
     display:block;
-    /* overflow-y: scroll; */
+    overflow-y: scroll;
+    /* padding-top: 40px; */
+    /* vertical-align: middle; */
 }
 .board{
     display: block;
-    height: 350px;
     margin-top:10px;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
     /* margin:auto; */
 }
