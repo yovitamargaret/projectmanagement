@@ -54,8 +54,29 @@ function Project() {
 
     console.log(startDate);
 
+    const [initialState, setInitialState] = useState({
+        id: 0,
+        name: '',
+        description: '',
+        startDate: '',
+        dueDate: '',
+        approvalStatus: '',
+        approvalDate: '',
+        projectStatus: '',
+        selectedTeamId: 0,
+      });
+
     const handleClose = () => {
         setLgShow(false);
+        setId(initialState.id);
+        setName(initialState.name);
+        setDescription(initialState.description);
+        setStartDate(initialState.startDate);
+        setDueDate(initialState.dueDate);
+        setApprovalStatus(initialState.approvalStatus);
+        setApprovalDate(initialState.approvalDate);
+        setProjectStatus(initialState.projectStatus);
+        setSelectedTeamId(initialState.selectedTeamId);
         setSelectedProject(null);
     }
 
@@ -218,7 +239,7 @@ function Project() {
                 <Modal
                     size="lg"
                     show={lgShow}
-                    onHide={() => setLgShow(false)}
+                    onHide={handleClose}
                     aria-labelledby="example-modal-sizes-title-lg"
                 >
                     <Modal.Header closeButton>
