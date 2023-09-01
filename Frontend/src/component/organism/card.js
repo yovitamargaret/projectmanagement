@@ -271,7 +271,7 @@ function Project() {
 </Form.Select>
 
 
-      <Form.Group className="mb-3" controlId="approvalDate">
+      {/* <Form.Group className="mb-3" controlId="approvalDate">
         <Form.Label>Project Approval Date</Form.Label>
             <Form.Control type="date" name="approvalDate" placeholder="Approval date" value={approvalDate} onChange={e=> {
                        const selectedApprovalDate = new Date(e.target.value);
@@ -280,7 +280,7 @@ function Project() {
                            .padStart(2, '0')}-${selectedApprovalDate.getDate().toString().padStart(2, '0')}`;
                        setApprovalDate(formattedApprovalDate);
             }}/>
-      </Form.Group>
+      </Form.Group> */}
 
       <Form.Select aria-label="Default select example" value={projectStatus} onChange={e => setProjectStatus(e.target.value)}>
         <Form.Label>Project Approval Status</Form.Label>
