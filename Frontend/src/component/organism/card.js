@@ -1,6 +1,5 @@
 import Card from 'react-bootstrap/Card';
 import '../organism/layout.css'
-import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -10,9 +9,18 @@ import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import ProgressBar from 'react-bootstrap/ProgressBar';
+import Badge from 'react-bootstrap/Badge';
+import moment from 'moment';
+import "./layout.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPen } from '@fortawesome/free-solid-svg-icons'
 
-function ProjectExample() {
+
+
+function Project() {
     const percentage = 66;
+    const now = 60;
     const [lgShow, setLgShow] = useState(false);
     const [data, setData] = useState([]);
     const [id, setId] = useState(0);
@@ -25,10 +33,25 @@ function ProjectExample() {
     const [projectStatus, setProjectStatus] = useState("");
     const [teams, setTeams] = useState([]);
     const [selectedTeamId, setSelectedTeamId] = useState(0);
+    const [editProjectId, setEditProjectId] = useState(0);
     const [status, setStatus] = useState(false);
     const projectApprovalOptions = ["Approved", "Pending", "Rejected"];
     const projectStatusOptions = ["Not Started", "Ongoing", "Done", "Bug"];
-    const [selectedProject, setSelectedProject] = useState(null);
+    const [selectedProject, setSelectedProject] = useState(0);
+
+    const startdate = moment(data.startDate).format("MMMM DD,yyyy");
+
+    let date= (due_date)=>{
+        const now = new Date();
+        let end_date = new Date(due_date)
+        const oneDay = (1000*60*60*24);
+        let result = Math.round(Math.abs((end_date - now)/ oneDay));
+        return result;
+    }
+
+    const enddate = moment(data.startDate).format("MMMM DD,yyyy");
+
+    console.log(startDate);
 
     const handleClose = () => {
         setLgShow(false);
@@ -80,6 +103,9 @@ function ProjectExample() {
             }
         }
 
+       
+
+
         console.log(data);
         console.log("Selected Team ID:", selectedTeamId);
 
@@ -90,58 +116,46 @@ function ProjectExample() {
             },
             url: "http://localhost:8088/api/project",
             data: JSON.stringify(data)
-        }).then((response) => {
-            if (response.data.status === 200) {
-                setStatus(true);
-                fetchProject(); 
+        }). then((response)=>{
+            if(response.data.status === 200){
+                setStatus(!status)
             }
-        }).catch((error) => {
-            console.log("Error posting data:", error);
-        }).finally(() => {
-            setStatus(false);
-        });
+        }).catch((error)=> {
+            console.log(error)
+        })
+      
     }
 
-    const fetchProject = () => {
-        axios.get("http://localhost:8088/api/project")
-            .then(response => {
-                setData(response.data);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    }
 
     const edit = (project) => {
         setSelectedProject(project);
+        setEditProjectId(project.project_id);
         setId(project.project_id);
         setName(project.name);
         setDescription(project.description);
-        setStartDate(project.start_date);
-        setDueDate(project.due_date);
+        // setStartDate(project.start_date);
+        const selectedStartDate = new Date(project.start_date);
+        const formattedStartDate = `${selectedStartDate.getFullYear()}-${(selectedStartDate.getMonth() + 1)
+            .toString()
+            .padStart(2, '0')}-${selectedStartDate.getDate().toString().padStart(2, '0')}`;
+        setStartDate(formattedStartDate)
+        const selectedDueDate = new Date(project.due_date);
+        const formattedDueDate = `${selectedDueDate.getFullYear()}-${(selectedDueDate.getMonth() + 1)
+            .toString()
+            .padStart(2, '0')}-${selectedDueDate.getDate().toString().padStart(2, '0')}`;
+        setDueDate(formattedDueDate);
         setApprovalStatus(project.project_approval_status);
         setApprovalDate(project.approval_date);
+        const selectedApprovalDate = new Date(project.approval_date);
+        const formattedApprovalDate = `${selectedApprovalDate.getFullYear()}-${(selectedApprovalDate.getMonth() + 1)
+            .toString()
+            .padStart(2, '0')}-${selectedApprovalDate.getDate().toString().padStart(2, '0')}`;
+        setApprovalDate(formattedApprovalDate);
         setProjectStatus(project.project_status);
-        setSelectedTeamId(project.team_id);
+        setSelectedTeamId(project.team.team_id);
         handleShow();
     }
-
-    const Delete = (id) => {
-        axios({
-            method: "DELETE",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            url: `http://localhost:8088/api/project/${id}`,
-        }).then((response) => {
-            if (response.data.status === 200) {
-                setStatus(true);
-                fetchProject(); 
-            }
-        }).catch((error) => {
-            console.log(error);
-        });
-    }
+    
 
     return (
         <div className='p-5 bg-light'>
@@ -150,55 +164,49 @@ function ProjectExample() {
                     <Button onClick={() => setLgShow(true)}>Add Project</Button>
                 </div> 
 
-                {data.map(project => (
+                {data.length > 0 && data.map(project => (
                 <Card key={project.project_id} className="mb-3">
             <Card.Body>
             <Row>
-                <Col xs lg="2">
+
+                <Col>
                 <div className='task' style={{borderRadius: '15px'}}>
                 <div>
-                    <h2>234</h2>
-                    <p>Total Task</p> 
+                <Row>
+                    <Col ><p>{startdate}</p></Col>
+                     <Col>
+                        <div className="detail">
+                        <p>See Detail</p>
+                        </div>
+                    </Col>
+                </Row>
+
+                <Row>
+                    <Col ><p style={{ fontSize: '18px', fontWeight: 'bold' }}>{project.name} <span ></span><FontAwesomeIcon icon={faPen} style={{ fontSize: '15px' }} onClick={() => edit(project)}/></p></Col>
+                     
+                </Row>
+                    
+                    
+                   
+                    <p>Team : {project.team.name}</p>                   
+                    <p>{project.project_status}</p>
+                    <div>                        
+                    </div>
+                    <Row>
+                    <Col ><ProgressBar now={now} label={`${now}%`} visuallyHidden /></Col>
+                     <Col>
+                        <div className="time">
+                        <Badge bg="secondary">{date(project.due_date)} Days more</Badge>
+                        </div>
+                    </Col>
+                </Row>
                 </div>
                 </div>
 
-                <div className='task' style={{borderRadius: '15px'}}>
-                <div>
-                    <h2>234</h2>
-                    <p>Total Task</p> 
-                </div>
-                </div>
 
 
                 </Col>
-                <Col xs lg="2">
-                <div className='task' style={{borderRadius: '15px'}}>
-                <div>
-                    <h2>234</h2>
-                    <p>Completed Task</p>
-                </div>
-                </div>
-
-                <div className='task' style={{borderRadius: '15px'}}>
-                <div>
-                    <h2>234</h2>
-                    <p>Completed Task</p>
-                </div>
-                </div>
-                </Col>
-
-                <Col md={{ span: 3, offset: 1 }}>
-                <h2> {project.name}
-                </h2>
                 
-                </Col>
-
-                <Col md={{ span: 2, offset: 1 }}>
-                <div style={{ width: 200, height: 200 }}>
-                     <CircularProgressbar value={percentage} text={`${percentage}%`}  />
-                </div>
-                </Col>
-          
             </Row>
 
             </Card.Body>
@@ -213,15 +221,11 @@ function ProjectExample() {
                 >
                     <Modal.Header closeButton>
                         <Modal.Title id="example-modal-sizes-title-lg">
-                            Add New Project
+                        {editProjectId ? "Edit Project" : "Add New Project"}
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
-                        <Form.Group className="mb-3" controlId="id">
-        <Form.Label>ID</Form.Label>
-        <Form.Control type="text" name="project_id" value={id} onChange={e=> setId(e.target.value)}/>
-        </Form.Group>
 
         <Form.Group className="mb-3" controlId="name">
         <Form.Label>Name</Form.Label>
@@ -234,14 +238,27 @@ function ProjectExample() {
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="startDate">
-        <Form.Label>Start Date</Form.Label>
-        <Form.Control type="date" name="start_date" placeholder="Start date" value={startDate} onChange={e=> setStartDate(e.target.value)} />
+      <Form.Label>Start Date</Form.Label>
+      <Form.Control type="date" name="start_date" placeholder="Start date" value={startDate} onChange={e=> {
+         const selectedStartDate = new Date(e.target.value);
+         const formattedStartDate = `${selectedStartDate.getFullYear()}-${(selectedStartDate.getMonth() + 1)
+             .toString()
+             .padStart(2, '0')}-${selectedStartDate.getDate().toString().padStart(2, '0')}`;
+         setStartDate(formattedStartDate);
+      }} />
       </Form.Group>
 
-      <Form.Group className="mb-3" controlId="dueDate">
-        <Form.Label>Due Date</Form.Label>
-        <Form.Control type="date" name="dueDate" placeholder="Due date" value={dueDate} onChange={e=> setDueDate(e.target.value)}  />
-      </Form.Group>
+     <Form.Group className="mb-3" controlId="dueDate">
+     <Form.Label>Due Date</Form.Label>
+     <Form.Control type="date" name="dueDate" placeholder="Due date" value={dueDate} onChange={e=> {
+            const selectedDate = new Date(e.target.value);
+            const formattedDate = `${selectedDate.getFullYear()}-${(selectedDate.getMonth() + 1)
+                .toString()
+                .padStart(2, '0')}-${selectedDate.getDate().toString().padStart(2, '0')}`;
+            setDueDate(formattedDate);
+            
+     }}  />
+     </Form.Group>
 
 <Form.Select aria-label="Default select example" value={approvalStatus} onChange={e => setApprovalStatus(e.target.value)}>
 <Form.Label>Project Approval Status</Form.Label>
@@ -256,7 +273,13 @@ function ProjectExample() {
 
       <Form.Group className="mb-3" controlId="approvalDate">
         <Form.Label>Project Approval Date</Form.Label>
-            <Form.Control type="date" name="approvalDate" placeholder="Approval date" value={approvalDate} onChange={e=> setApprovalDate(e.target.value)}/>
+            <Form.Control type="date" name="approvalDate" placeholder="Approval date" value={approvalDate} onChange={e=> {
+                       const selectedApprovalDate = new Date(e.target.value);
+                       const formattedApprovalDate = `${selectedApprovalDate.getFullYear()}-${(selectedApprovalDate.getMonth() + 1)
+                           .toString()
+                           .padStart(2, '0')}-${selectedApprovalDate.getDate().toString().padStart(2, '0')}`;
+                       setApprovalDate(formattedApprovalDate);
+            }}/>
       </Form.Group>
 
       <Form.Select aria-label="Default select example" value={projectStatus} onChange={e => setProjectStatus(e.target.value)}>
@@ -273,7 +296,7 @@ function ProjectExample() {
     <Form.Label>Team</Form.Label>
     <Form.Select
         aria-label="Default select example"
-        value={selectedTeamId}
+        value={selectedTeamId || (selectedProject && selectedProject.team_id)}
         onChange={e => setSelectedTeamId(parseInt(e.target.value))}
     >
         <option value="">Select Team</option>
@@ -301,4 +324,4 @@ function ProjectExample() {
     );
 }
 
-export default ProjectExample;
+export default Project;
