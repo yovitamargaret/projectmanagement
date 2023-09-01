@@ -31,7 +31,7 @@ root.render(
       <Routes>
         <Route path='/' element={<Layout/>}>
           <Route index element={<Home/>}/>
-          <Route path='task' element={<Task/>}/>
+          <Route path='task/:project_id' element={<Task/>}/>
           <Route path='gantt' element={<GanttChart/>}/>
           <Route path='employee' element={<Employee/>}/>
           <Route path='login' element={<Login/>}/>

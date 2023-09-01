@@ -15,6 +15,7 @@ import moment from 'moment';
 import "./layout.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen } from '@fortawesome/free-solid-svg-icons'
+import { Link } from 'react-router-dom';
 
 
 
@@ -175,7 +176,9 @@ function Project() {
                     <Col ><p>{startdate}</p></Col>
                      <Col>
                         <div className="detail">
-                        <p>See Detail</p>
+                        <Link to={`task/${project.project_id}`}>See Detail</Link>
+                            {/* <Task project={project.project_id}>See Detail</Task> */}
+                        {/* <a href='task/${project.project_id}'><p>See Detail</p></a> */}
                         </div>
                     </Col>
                 </Row>
