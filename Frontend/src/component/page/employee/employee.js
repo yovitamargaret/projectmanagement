@@ -97,7 +97,7 @@ let Employee = () =>{
                 "index": index
             }
 
-            if(tempData.object === employee.team.team_id)
+            if(tempData.object === employee.team?.team_id)
             {
                 setTeamId(tempData.index);
             }
