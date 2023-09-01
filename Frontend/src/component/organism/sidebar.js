@@ -13,7 +13,7 @@ import { NavLink } from 'react-router-dom';
 let Sidebar = ()=>{
     return(
 
-        <CDBSidebar textColor="#fff" backgroundColor="#333" fixed>
+        <CDBSidebar textColor="#fff" backgroundColor="#333" fixed collapse>
           <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
             <a href="/" className="text-decoration-none" style={{ color: 'inherit' }}>
               Sidebar

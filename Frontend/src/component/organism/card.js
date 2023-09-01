@@ -102,8 +102,6 @@ function Project() {
         }).catch((error) => {
             console.log(error);
         });
-
-
     }, [status]);
 
     

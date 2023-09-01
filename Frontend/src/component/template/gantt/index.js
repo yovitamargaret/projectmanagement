@@ -64,9 +64,14 @@ let GanttChart = (props)=>{
       x.task.project.name
     )
   })
+
+  if (dataGantt.length===1) {
+    return(
+      <h3 className="title"> Create new Task to see chart</h3>
+    )
+  } else {
     return(
       <>
-      <h1 className="title">{Arrayproject[0]}</h1>
         <Chart
         chartType="Gantt"
         width="100%"
@@ -77,6 +82,7 @@ let GanttChart = (props)=>{
         />  
         </>  
     )
+  }
 }
 
 export default GanttChart;
