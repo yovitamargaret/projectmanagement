@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Home from './component/page/home';
-import Region from './component/template/region';
+import Home from './component/template/home';
 import store from './handler/store'
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -33,13 +31,13 @@ root.render(
       <Routes>
         <Route path='/' element={<Layout/>}>
           <Route index element={<Home/>}/>
-          <Route path='region' element={<Region/>}/>
           <Route path='task' element={<Task/>}/>
           <Route path='gantt' element={<GanttChart/>}/>
           <Route path='employee' element={<Employee/>}/>
           <Route path='login' element={<Login/>}/>
           <Route path='register' element={<Register/>}/>
           <Route path='forgotpassword' element={<ForgotPassword/>}/>
+          <Route path='approval_project' element={<ProjectApprovePage/>} />
           <Route path='*' element={<NotFound/>}/>
         </Route>
       </Routes>

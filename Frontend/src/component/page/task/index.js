@@ -6,7 +6,7 @@ function Task(){
 
     return(
         <>
-        <div>
+        <div className="task">
         <div className="gantt">
          <GanttChart project={2}></GanttChart>
         </div>
