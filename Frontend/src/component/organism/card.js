@@ -198,8 +198,6 @@ function Project() {
                      <Col>
                         <div className="detail">
                         <Link to={`task/${project.project_id}`}>See Detail</Link>
-                            {/* <Task project={project.project_id}>See Detail</Task> */}
-                        {/* <a href='task/${project.project_id}'><p>See Detail</p></a> */}
                         </div>
                     </Col>
                 </Row>
