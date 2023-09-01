@@ -4,6 +4,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
+import moment from 'moment';
 
 function ProjectApprovePage() {
   const [pendingProjects, setPendingProjects] = useState([]);
@@ -28,6 +29,9 @@ function ProjectApprovePage() {
 }
 
   let approveProject=(project_id)=>{
+    const currentApprovalDate = moment().format("YYYY-MM-DDTHH:mm:ss.SSS");
+
+
     axios({
       method:"GET",
       url:`http://localhost:8088/api/project/${project_id}`
@@ -39,7 +43,7 @@ function ProjectApprovePage() {
             "start_date": response.data.data.start_date,
             "due_date": response.data.data.due_date,
             "project_approval_status": "Approved",
-            "approval_date": response.data.data.approval_date,
+            "approval_date": currentApprovalDate,
             "project_status": response.data.data.project_status,
             "team": {
                 "team_id":  response.data.data.team.team_id
@@ -78,8 +82,8 @@ function ProjectApprovePage() {
             "description": response.data.data.description,
             "start_date": response.data.data.start_date,
             "due_date": response.data.data.due_date,
-            "project_approval_status": "Approved",
-            "approval_date": response.data.data.approval_date,
+            "project_approval_status": "Rejected",
+            "approval_date": null,
             "project_status": response.data.data.project_status,
             "team": {
                 "team_id":  response.data.data.team.team_id

@@ -133,7 +133,6 @@ function Project() {
         setId(project.project_id);
         setName(project.name);
         setDescription(project.description);
-        // setStartDate(project.start_date);
         const selectedStartDate = new Date(project.start_date);
         const formattedStartDate = `${selectedStartDate.getFullYear()}-${(selectedStartDate.getMonth() + 1)
             .toString()
@@ -260,15 +259,17 @@ function Project() {
      }}  />
      </Form.Group>
 
-<Form.Select aria-label="Default select example" value={approvalStatus} onChange={e => setApprovalStatus(e.target.value)}>
-<Form.Label>Project Approval Status</Form.Label>
-    <option>Select Status</option>
-    {projectApprovalOptions.map(option => (
+    <Form.Group className="mb-3" controlId="approvalStatus">
+    <Form.Label>Project Approval Status</Form.Label>
+    <Form.Select aria-label="Default select example" value={approvalStatus} onChange={e => setApprovalStatus(e.target.value)}>
+        <option>Select Status</option>
+        {projectApprovalOptions.map(option => (
         <option key={option} value={option}>
             {option}
         </option>
-    ))}
-</Form.Select>
+        ))}
+    </Form.Select>
+    </Form.Group>
 
 
       {/* <Form.Group className="mb-3" controlId="approvalDate">
@@ -282,15 +283,17 @@ function Project() {
             }}/>
       </Form.Group> */}
 
+    <Form.Group className="mb-3" controlId="projectStatus">
+    <Form.Label>Project Status</Form.Label>
       <Form.Select aria-label="Default select example" value={projectStatus} onChange={e => setProjectStatus(e.target.value)}>
-        <Form.Label>Project Approval Status</Form.Label>
             <option>Select Status</option>
             {projectStatusOptions.map(option => (
             <option key={option} value={option}>
             {option}
             </option>
     ))}
-</Form.Select>
+    </Form.Select>
+    </Form.Group>
         
         <Form.Group className="mb-3" controlId="team">
     <Form.Label>Team</Form.Label>
