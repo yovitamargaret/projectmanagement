@@ -16,9 +16,9 @@ import com.example.demo.entities.Team;
 import com.example.demo.handler.Response;
 import com.example.demo.services.TeamService;
 
-@CrossOrigin
 @RestController
 @RequestMapping("api")
+@CrossOrigin
 public class TeamRestController {
 
     @Autowired

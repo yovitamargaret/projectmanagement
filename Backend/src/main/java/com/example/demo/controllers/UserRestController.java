@@ -19,6 +19,7 @@ import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.RegisterRequest;
 import com.example.demo.handler.Response;
 import com.example.demo.services.AccountService;
+import com.example.demo.services.EmployeeService;
 
 @RestController
 @RequestMapping("api")
@@ -28,6 +29,8 @@ public class UserRestController {
     private AuthenticationManager authenticationManager;
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private EmployeeService employeeService;
     @PostMapping("user/login")
     public ResponseEntity<Object> login( @RequestBody LoginRequest loginValue){
         Authentication authentication = authenticationManager
@@ -35,7 +38,7 @@ public class UserRestController {
                 loginValue.getEmail(), loginValue.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         if (authentication.isAuthenticated()) {
-            return Response.generate(HttpStatus.OK, "Login Successful");
+            return Response.generate(HttpStatus.OK, "Login Successful", employeeService.Get(employeeService.findIdByEmail(loginValue.getEmail())));
         }
         return Response.generate(HttpStatus.UNAUTHORIZED, "Login Gagal");
         

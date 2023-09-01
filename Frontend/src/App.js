@@ -6,9 +6,6 @@ import { decrement, increment } from './features/counter/counterSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Task from './component/template/task';
 
-
-
-
 function App() {
   const value = useSelector((state)=>state.counter.value)
   const dispatch = useDispatch()

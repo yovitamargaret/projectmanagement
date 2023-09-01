@@ -1,7 +1,8 @@
 import axios from "axios"
 import { useState, useEffect } from 'react';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import Board from 'react-trello'
+import Board from 'react-trello';
+import BoardWrapper from 'react-trello';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -547,7 +548,17 @@ const onSubmitEdit = () => {
         <Button variant="primary" onClick={handleShow}>Create Task</Button>
         <Button variant="primary" onClick={requestTaskHandleShow}>Requested Task</Button>
 
-        <Board data={data_board} onCardDelete={onCardDelete} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} onCardClick={onCardClick}/>
+        <Board 
+        style={{height:350}} 
+        data={data_board} 
+        onCardDelete={onCardDelete} 
+        handleDragStart={handleDragStart} 
+        handleDragEnd={handleDragEnd} 
+        onCardClick={onCardClick}
+        laneStyle={{
+          maxHeight:270
+        }}
+        />
 
         <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

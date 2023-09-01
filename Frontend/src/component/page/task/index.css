@@ -1,0 +1,15 @@
+.task{
+    height: 1vh;
+}
+.gantt{
+    height: 0.5vh;
+    display:block;
+    /* overflow-y: scroll; */
+}
+.board{
+    display: block;
+    height: 350px;
+    margin-top:10px;
+    overflow-y: scroll;
+    /* margin:auto; */
+}

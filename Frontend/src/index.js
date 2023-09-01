@@ -10,10 +10,12 @@ import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import NotFound from './component/page/errorPage/404';
 import Layout from './component/page/layout';
-import Task from './component/template/task';
+import Task from './component/page/task';
 import Register from './component/page/register/register';
 import Login from './component/page/login/login';
 import Employee from './component/page/employee/employee';
+import ForgotPassword from './component/page/forgotPassword/forgotPassword';
+import GanttChart from './component/template/gantt';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -32,14 +34,15 @@ root.render(
           <Route index element={<Home/>}/>
           <Route path='region' element={<Region/>}/>
           <Route path='task' element={<Task/>}/>
+          <Route path='gantt' element={<GanttChart/>}/>
           <Route path='employee' element={<Employee/>}/>
           <Route path='login' element={<Login/>}/>
           <Route path='register' element={<Register/>}/>
+          <Route path='forgotpassword' element={<ForgotPassword/>}/>
           <Route path='*' element={<NotFound/>}/>
         </Route>
       </Routes>
     </BrowserRouter>
-    {/* <Home></Home> */}
   </Provider>
 );
 
