@@ -54,29 +54,19 @@ function Project() {
 
     console.log(startDate);
 
-    const [initialState, setInitialState] = useState({
-        id: 0,
-        name: '',
-        description: '',
-        startDate: '',
-        dueDate: '',
-        approvalStatus: '',
-        approvalDate: '',
-        projectStatus: '',
-        selectedTeamId: 0,
-      });
+
 
     const handleClose = () => {
         setLgShow(false);
-        setId(initialState.id);
-        setName(initialState.name);
-        setDescription(initialState.description);
-        setStartDate(initialState.startDate);
-        setDueDate(initialState.dueDate);
-        setApprovalStatus(initialState.approvalStatus);
-        setApprovalDate(initialState.approvalDate);
-        setProjectStatus(initialState.projectStatus);
-        setSelectedTeamId(initialState.selectedTeamId);
+        setId(0);
+        setName("");
+        setDescription("");
+        setStartDate("");
+        setDueDate("");
+        setApprovalStatus("");
+        setApprovalDate("");
+        setProjectStatus("");
+        setSelectedTeamId(0);
         setSelectedProject(null);
     }
 
@@ -115,7 +105,7 @@ function Project() {
             "description": description,
             "start_date": startDate,
             "due_date": dueDate,
-            "project_approval_status": approvalStatus,
+            "project_approval_status": "Pending",
             "approval_date": approvalDate,
             "project_status": projectStatus,
             "team": {
@@ -207,7 +197,8 @@ function Project() {
                     
                     
                    
-                    <p>Team : {project.team.name}</p>                   
+                    <p>Team : {project.team.name}</p>  
+                    <p>Project Approval : {project.project_approval_status}</p>                 
                     <p>{project.project_status}</p>
                     <div>                        
                     </div>

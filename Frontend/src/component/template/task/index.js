@@ -474,7 +474,11 @@ const onSubmitEdit = () => {
 
     lanes[0].label=data.filter(x=>x.task_status==="Not Started" && x.task.task_approval_status ==="Approved" && x.task.project.project_id ===project).length.toString();
     lanes[1].label=data.filter(x=>x.task_status==="Ongoing"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===project).length.toString();
-    lanes[project].label=data.filter(x=>x.task_status==="Done"&& x.task.task_approval_status ==="Approved" && x.task.project.project_id ===project).length.toString();
+    // lanes[project].label=data.filter(x=>x.task_status==="Done"&& x.task.task_approval_status ==="Approved" && x.task.project.project_id ===project).length.toString();
+    if (lanes[project]) {
+      lanes[project].label = data.filter(x => x.task_status === "Done" && x.task.task_approval_status === "Approved" && x.task.project.project_id === project).length.toString();
+    }
+    
     lanes[3].label=data.filter(x=>x.task_status==="Bug"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===project).length.toString();
 
 
