@@ -23,6 +23,7 @@ let Login = () => {
         }).then((response)=>{
             if(response.data.status === 200){
                 setStatus(!status)
+                // console.log(response)
                 console.log("Hello, " + response.data.data.name);
             }
             else{

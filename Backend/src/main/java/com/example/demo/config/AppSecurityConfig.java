@@ -26,13 +26,11 @@ public class AppSecurityConfig {
         .authorizeHttpRequests((auth) -> {
             try {
                 auth
-                    .antMatchers("/api/employee/**").permitAll()
-                    .antMatchers("/api/project/**").permitAll()
-                    .antMatchers("/api/role/**").permitAll()
-                    .antMatchers("/api/task_detail/**").permitAll()
-                    .antMatchers("/api/task/**").permitAll()
-                    .antMatchers("/api/team/**").permitAll()
                     .antMatchers("/api/user/**").permitAll()
+                    .antMatchers("/api/employee/**").permitAll()
+                    .antMatchers("/api/task/**").permitAll()
+                    .antMatchers("/api/task_detail/**").permitAll()
+                    .antMatchers("/api/**").permitAll()
                     .anyRequest().authenticated()
                     .and()
                     .formLogin()

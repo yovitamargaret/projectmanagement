@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import com.example.demo.services.TaskService;
 
 @RestController
 @RequestMapping("api")
+@CrossOrigin
 public class TaskRestController {
     @Autowired
     private TaskService taskService;
@@ -42,5 +44,13 @@ public class TaskRestController {
     public ResponseEntity<Object> delete(@PathVariable(required = true) Integer id){
         taskService.Delete(id);
         return Response.generate(HttpStatus.OK,"Data has been succesfully deleted");
+    }
+    @GetMapping("task/last")
+    public ResponseEntity<Object> getLast(){
+        return Response.generate(HttpStatus.OK,"Data has been succesfully retrieved",taskService.findLastId());
+    }
+    @GetMapping("task/{name}/{project_id}/{description}")
+    public ResponseEntity<Object> getIdByAll(@PathVariable(required = true) String name,@PathVariable(required = true) Integer project_id,@PathVariable(required = true) String description){
+        return Response.generate(HttpStatus.OK,"Data has been succesfully retrieved",taskService.findIdByAll(name, project_id, description));
     }
 }
