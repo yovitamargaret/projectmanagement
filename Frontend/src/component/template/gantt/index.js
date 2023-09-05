@@ -21,6 +21,47 @@ let GanttChart = (props)=>{
       })  
       },[status])
       
+
+    let diffDate=(start_date,due_date)=>{
+      const start = new Date(start_date);
+      let end = new Date(due_date)
+      const oneDay = (1000*60*60*24);
+      let result = Math.round((end - start) / oneDay)
+      result =result+" day(s)" 
+      return result
+    }
+
+      let customTooltips=(name, employee, start,end)=>{
+        return(
+          '<div>' +
+          '<p> Task Name : '+name+'<br>'+
+          'Assigned Employee : '+employee+'<br>'+
+          'Start Date : '+start+'<br>'+
+          'End Date : '+end+'<br>'+
+          'Duration : '+diffDate(start,end)+'<br>'+
+          '</p>'+
+          '</div>'
+        )
+      }
+
+      const dataTimeline=[[
+        { type: "string", id: "Task Name" },
+        { type: "string", id: "Assigned Employee" },
+        // { type: "string", role: "tooltip" },
+        {type: 'string', role: 'tooltip', 'p': {'html': true}},
+        { type: "date", id: "Start" },
+        { type: "date", id: "End" },
+      ],...data.filter(x=>x.task?.task_approval_status === "Approved" && x.task?.project?.project_id===project).map(x=>
+        [
+          x.task.name.toString(),
+          null,
+          // x.employee.name.toString(),
+          customTooltips(x.task.name.toString(),x.employee.name.toString(),new Date(x.task.start_date),new Date(x.task.due_date)),
+          new Date(x.task.start_date),
+          new Date(x.task.due_date),
+        ])
+      ]
+
      const dataGantt = [
       [
         { type: "string", label: "Task Detail Id" },
@@ -29,8 +70,9 @@ let GanttChart = (props)=>{
         { type: "date", label: "Start Date" },
         { type: "date", label: "End Date" },
         { type: "number", label: "Duration" },
-        { type: "number", label: "Percent Complete" },
-        { type: "string", label: "Dependencies" }
+        { type: "number", label: "Task Id" },
+        { type: "string", label: "Dependencies" },
+        {type: 'string', role: 'tooltip', 'p': {'html': true}}
       ],...data.filter(x=>x.task?.task_approval_status === "Approved" && x.task?.project?.project_id===project).map(x=>
 
             [
@@ -40,23 +82,42 @@ let GanttChart = (props)=>{
               new Date(x.task.start_date),
               new Date(x.task.due_date),
               null,
+              Math.floor(
+                Math.max(
+                  ((Math.min(new Date(), new Date(x.task.due_date)) - new Date(x.task.start_date)) /
+                    (new Date(x.task.due_date) - new Date(x.task.start_date))) *
+                    100,
+                  0
+                ) * 100
+              ) / 100,
               null,
-              null
+              customTooltips(x.task.name.toString(),x.employee.name.toString(),new Date(x.task.start_date),new Date(x.task.due_date))
             ])
         ]
 
-  let paddingHeight = 75;
-  let rowHeight = (dataGantt.length-1) * 35;
+  let paddingHeight = 15;
+  let rowHeight = (dataGantt.length) * 28;
   let chartHeight = rowHeight + paddingHeight;
- const options = {
+  const options = {
     height: chartHeight,
     chartArea: {
       height: rowHeight,
     },
     gantt: {
       trackHeight: 30,
+      percentEnabled: false,
+
     },
+    tooltip: { isHtml: true }
   };
+  const options2={
+    allowHtml: true,
+    height: chartHeight,
+    chartArea: {
+      height: rowHeight,
+    },
+    tooltip: { isHtml: true }
+  }
 
   let Arrayproject=[]
   data.filter(x=>x.task?.project?.project_id===project).map(x=>{
@@ -65,7 +126,7 @@ let GanttChart = (props)=>{
     )
   })
 
-  if (dataGantt.length===1) {
+  if (dataTimeline.length===1) {
     return(
       <h3 className="title"> Create new Task to see chart</h3>
     )
@@ -73,12 +134,12 @@ let GanttChart = (props)=>{
     return(
       <>
         <Chart
-        chartType="Gantt"
+        chartType="Timeline"
         width="100%"
         height="100%"
-        data={dataGantt}
+        data={dataTimeline}
         // data={dataa}
-        options={options}
+        options={options2}
         />  
         </>  
     )

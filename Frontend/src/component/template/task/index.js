@@ -18,6 +18,7 @@ let Task = (props) =>{
     const [project_id,setProject_id] =useState(0);
     const [employee_id,setEmployee_id] =useState(0);
     const [status,setStatus] =useState(false);
+    const [statusproops,setStatusProops] =useState(false);
     const [show, setShow] = useState(false);
     const [showRequestedTask, setShowRequestedTask] = useState(false);
     const [selectedTask, setSelectedTask] = useState(null);
@@ -140,32 +141,28 @@ let Task = (props) =>{
                 },
                 url: `http://localhost:8088/api/task_detail/${cardId}`,
               })
-                .then((response) => {
-                  if (response.data.status === 200) {
-                    setStatus(true);
-                    // setTask_id(response.data.data.task.task_id)
+                .then((response1) => {
+                  if (response1.data.status === 200) {
+                    axios({
+                      method: 'DELETE',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      url: `http://localhost:8088/api/task/${response.data.data.task.task_id}`,
+                    })
+                      .then((response2) => {
+                        if (response2.data.status === 200) {
+                          setStatus(true);
+                        }
+                      })
+                      .catch((error2) => {
+                        console.log(error2);
+                      });
                   }
                 })
-                .catch((error) => {
-                  console.log(error);
+                .catch((error1) => {
+                  console.log(error1);
                 });
-
-              axios({
-                method: 'DELETE',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                url: `http://localhost:8088/api/task/${response.data.data.task.task_id}`,
-              })
-                .then((response) => {
-                  if (response.data.status === 200) {
-                    setStatus(true);
-                  }
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
-
             }
           })
           .catch((error) => {
@@ -393,6 +390,7 @@ const onSubmitEdit = () => {
     }).then((response) => {
         setData(response.data.data)
         setStatus(false)
+        setStatusProops(true)
     }).catch((error) => {
      console.log(error)
     })
@@ -554,14 +552,15 @@ const onSubmitEdit = () => {
         <Button variant="primary" onClick={requestTaskHandleShow}>Requested Task</Button>
 
         <Board 
-        style={{height:315,alignSelf: 'flex-start'}} 
+        style={{height:280, alignSelf: 'flex-start'}} 
         data={data_board} 
         onCardDelete={onCardDelete} 
         handleDragStart={handleDragStart} 
         handleDragEnd={handleDragEnd} 
         onCardClick={onCardClick}
         laneStyle={{
-          maxHeight:270
+          maxHeight:270,
+          maxWidth:250
         }}
         />
 
@@ -571,11 +570,9 @@ const onSubmitEdit = () => {
         </Modal.Header>
         <Modal.Body>
         <Form.Group className="mb-3" controlId="task_id">
-          {/* <Form.Label>Task Id</Form.Label> */}
           <Form.Control name="task_id" placeholder="Task Id" type="hidden" value={task_id} onChange={e=> setTask_id(e.target.value)}  />
         </Form.Group>
         <Form.Group className="mb-3" controlId="task_detail_id">
-          {/* <Form.Label>Task Id</Form.Label> */}
           <Form.Control name="task_detail_id" placeholder="Task Detail Id" type="hidden" value={task_detail_id} onChange={e=> setTaskDetail_id(e.target.value)}  />
         </Form.Group>
         <Form.Group className="mb-3" controlId="task_title">

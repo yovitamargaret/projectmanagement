@@ -185,7 +185,7 @@ function Project() {
                     <Col ><p>{startdate}</p></Col>
                      <Col>
                         <div className="detail">
-                        <Link to={`task/${project.project_id}`}>See Detail</Link>
+                        <Link to={project.project_approval_status ==="Approved" ? `task/${project.project_id}`: `#`}>See Detail</Link>
                         </div>
                     </Col>
                 </Row>
