@@ -34,5 +34,10 @@ public class TaskDetailServiceImpl implements TaskDetailService{
         taskDetailRepository.deleteById(id);
         return !taskDetailRepository.findById(id).isPresent();
     }
+
+    @Override
+    public List<TaskDetail> findByProjectId(Integer project_id) {
+        return taskDetailRepository.findAllByProjectId(project_id);
     
+}
 }

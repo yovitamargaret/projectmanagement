@@ -16,8 +16,7 @@ import "./layout.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom';
-
-
+import ProgressBarComponent from './progressbar';
 
 function Project() {
     const percentage = 66;
@@ -39,6 +38,7 @@ function Project() {
     const projectApprovalOptions = ["Approved", "Pending", "Rejected"];
     const projectStatusOptions = ["Not Started", "Ongoing", "Done", "Bug"];
     const [selectedProject, setSelectedProject] = useState(0);
+    const [taskPercentage, setTaskPercentage] = useState(0);
 
     const startdate = moment(data.startDate).format("MMMM DD,yyyy");
 
@@ -163,8 +163,7 @@ function Project() {
         setProjectStatus(project.project_status);
         setSelectedTeamId(project.team.team_id);
         handleShow();
-    }
-    
+    }  
 
     return (
         <div className='p-5 bg-light'>
@@ -203,7 +202,7 @@ function Project() {
                     <div>                        
                     </div>
                     <Row>
-                    <Col ><ProgressBar now={now} label={`${now}%`} visuallyHidden /></Col>
+                    <Col ><ProgressBarComponent projectId={project.project_id}/></Col>
                      <Col>
                         <div className="time">
                         <Badge bg="secondary">{date(project.due_date)} Days more</Badge>

@@ -45,4 +45,10 @@ public class TaskDetailRestController {
         taskDetailService.Delete(id);
         return Response.generate(HttpStatus.OK,"Data has been succesfully deleted");
     }
+
+    @GetMapping("task_detail/project/{project_id}")
+    public ResponseEntity<Object> getIdByAll(@PathVariable(required = true) Integer project_id) {
+    return Response.generate(HttpStatus.OK, "Data has been successfully retrieved", taskDetailService.findByProjectId(project_id));
+}
+
 }
