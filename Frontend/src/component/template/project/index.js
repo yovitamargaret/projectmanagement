@@ -1,5 +1,4 @@
 import Card from 'react-bootstrap/Card';
-import '../organism/layout.css'
 import 'react-circular-progressbar/dist/styles.css';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -16,7 +15,8 @@ import "./layout.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom';
-import ProgressBarComponent from './progressbar';
+import ProgressBarComponent from '../../organism/progressbar';
+
 
 function Project() {
     const percentage = 66;
@@ -202,7 +202,7 @@ function Project() {
                     <div>                        
                     </div>
                     <Row>
-                    <Col ><ProgressBarComponent projectId={project.project_id}/></Col>
+                    <Col ><ProgressBarComponent projectId={project.project_id} /></Col>
                      <Col>
                         <div className="time">
                         <Badge bg="secondary">{date(project.due_date)} Days more</Badge>
