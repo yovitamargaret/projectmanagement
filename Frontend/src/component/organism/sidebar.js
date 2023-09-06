@@ -12,7 +12,8 @@ import { Link, NavLink } from 'react-router-dom';
 
 let Sidebar = ()=>{
     return(
-        <CDBSidebar textColor="#fff" backgroundColor="#333" fixed>
+
+        <CDBSidebar textColor="#fff" backgroundColor="#333" fixed collapse>
           <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
             <a href="/" className="text-decoration-none" style={{ color: 'inherit' }}>
               Sidebar
@@ -27,8 +28,8 @@ let Sidebar = ()=>{
               <NavLink exact to="/approval_project" activeClassName="activeClicked">
                 <CDBSidebarMenuItem icon="check">Approve Projects</CDBSidebarMenuItem>
               </NavLink>
-              <NavLink exact to="/" activeClassName="activeClicked">
-                <CDBSidebarMenuItem icon="table">Tables</CDBSidebarMenuItem>
+              <NavLink exact to="/approval_project" activeClassName="activeClicked">
+                <CDBSidebarMenuItem icon="check">Approve Projects</CDBSidebarMenuItem>
               </NavLink>
               <NavLink exact to="/" activeClassName="activeClicked">
                 <CDBSidebarMenuItem icon="user">Profile page</CDBSidebarMenuItem>
@@ -53,7 +54,8 @@ let Sidebar = ()=>{
             </div>
           </CDBSidebarFooter>
         </CDBSidebar>
-   
+    
     )
 }
+
 export default Sidebar;

@@ -1,6 +1,5 @@
 import Card from 'react-bootstrap/Card';
 import '../organism/layout.css'
-import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -16,10 +15,11 @@ import moment from 'moment';
 import "./layout.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen } from '@fortawesome/free-solid-svg-icons'
+import { Link } from 'react-router-dom';
 
 
 
-function ProjectExample() {
+function Project() {
     const percentage = 66;
     const now = 60;
     const [lgShow, setLgShow] = useState(false);
@@ -54,8 +54,19 @@ function ProjectExample() {
 
     console.log(startDate);
 
+
+
     const handleClose = () => {
         setLgShow(false);
+        setId(0);
+        setName("");
+        setDescription("");
+        setStartDate("");
+        setDueDate("");
+        setApprovalStatus("");
+        setApprovalDate("");
+        setProjectStatus("");
+        setSelectedTeamId(0);
         setSelectedProject(null);
     }
 
@@ -81,8 +92,6 @@ function ProjectExample() {
         }).catch((error) => {
             console.log(error);
         });
-
-
     }, [status]);
 
     
@@ -96,7 +105,7 @@ function ProjectExample() {
             "description": description,
             "start_date": startDate,
             "due_date": dueDate,
-            "project_approval_status": approvalStatus,
+            "project_approval_status": "Pending",
             "approval_date": approvalDate,
             "project_status": projectStatus,
             "team": {
@@ -124,27 +133,9 @@ function ProjectExample() {
         }).catch((error)=> {
             console.log(error)
         })
-        
-        // then((response) => {
-        //     if (response.data.status === 200) {
-        //         setStatus(!status)
-        //         fetchProject(); 
-        //     }
-        // }).catch((error) => {
-        //     console.log("Error posting data:", error);
-        // })
+      
     }
 
-    // const fetchProject = () => {
-    //     axios.get("http://localhost:8088/api/project")
-    //         .then(response => {
-    //             setData(response.data);
-    //             console.log(response)
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //         });
-    // }
 
     const edit = (project) => {
         setSelectedProject(project);
@@ -152,7 +143,6 @@ function ProjectExample() {
         setId(project.project_id);
         setName(project.name);
         setDescription(project.description);
-        // setStartDate(project.start_date);
         const selectedStartDate = new Date(project.start_date);
         const formattedStartDate = `${selectedStartDate.getFullYear()}-${(selectedStartDate.getMonth() + 1)
             .toString()
@@ -175,24 +165,6 @@ function ProjectExample() {
         handleShow();
     }
     
-    
-
-    const Delete = (id) => {
-        axios({
-            method: "DELETE",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            url: `http://localhost:8088/api/project/${id}`,
-        }).then((response) => {
-            if (response.data.status === 200) {
-                setStatus(true);
-                // fetchProject(); 
-            }
-        }).catch((error) => {
-            console.log(error);
-        });
-    }
 
     return (
         <div className='p-5 bg-light'>
@@ -213,7 +185,7 @@ function ProjectExample() {
                     <Col ><p>{startdate}</p></Col>
                      <Col>
                         <div className="detail">
-                        <p>See Detail</p>
+                        <Link to={`task/${project.project_id}`}>See Detail</Link>
                         </div>
                     </Col>
                 </Row>
@@ -225,7 +197,8 @@ function ProjectExample() {
                     
                     
                    
-                    <p>Team : {project.team.name}</p>                   
+                    <p>Team : {project.team.name}</p>  
+                    <p>Project Approval : {project.project_approval_status}</p>                 
                     <p>{project.project_status}</p>
                     <div>                        
                     </div>
@@ -253,7 +226,7 @@ function ProjectExample() {
                 <Modal
                     size="lg"
                     show={lgShow}
-                    onHide={() => setLgShow(false)}
+                    onHide={handleClose}
                     aria-labelledby="example-modal-sizes-title-lg"
                 >
                     <Modal.Header closeButton>
@@ -263,10 +236,6 @@ function ProjectExample() {
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
-                        <Form.Group className="mb-3" controlId="id">
-        <Form.Label>ID</Form.Label>
-        <Form.Control type="text" name="project_id" value={id} onChange={e=> setId(e.target.value)}/>
-        </Form.Group>
 
         <Form.Group className="mb-3" controlId="name">
         <Form.Label>Name</Form.Label>
@@ -301,18 +270,20 @@ function ProjectExample() {
      }}  />
      </Form.Group>
 
-<Form.Select aria-label="Default select example" value={approvalStatus} onChange={e => setApprovalStatus(e.target.value)}>
-<Form.Label>Project Approval Status</Form.Label>
-    <option>Select Status</option>
-    {projectApprovalOptions.map(option => (
+    <Form.Group className="mb-3" controlId="approvalStatus">
+    <Form.Label>Project Approval Status</Form.Label>
+    <Form.Select aria-label="Default select example" value={approvalStatus} onChange={e => setApprovalStatus(e.target.value)}>
+        <option>Select Status</option>
+        {projectApprovalOptions.map(option => (
         <option key={option} value={option}>
             {option}
         </option>
-    ))}
-</Form.Select>
+        ))}
+    </Form.Select>
+    </Form.Group>
 
 
-      <Form.Group className="mb-3" controlId="approvalDate">
+      {/* <Form.Group className="mb-3" controlId="approvalDate">
         <Form.Label>Project Approval Date</Form.Label>
             <Form.Control type="date" name="approvalDate" placeholder="Approval date" value={approvalDate} onChange={e=> {
                        const selectedApprovalDate = new Date(e.target.value);
@@ -321,17 +292,19 @@ function ProjectExample() {
                            .padStart(2, '0')}-${selectedApprovalDate.getDate().toString().padStart(2, '0')}`;
                        setApprovalDate(formattedApprovalDate);
             }}/>
-      </Form.Group>
+      </Form.Group> */}
 
+    <Form.Group className="mb-3" controlId="projectStatus">
+    <Form.Label>Project Status</Form.Label>
       <Form.Select aria-label="Default select example" value={projectStatus} onChange={e => setProjectStatus(e.target.value)}>
-        <Form.Label>Project Approval Status</Form.Label>
             <option>Select Status</option>
             {projectStatusOptions.map(option => (
             <option key={option} value={option}>
             {option}
             </option>
     ))}
-</Form.Select>
+    </Form.Select>
+    </Form.Group>
         
         <Form.Group className="mb-3" controlId="team">
     <Form.Label>Team</Form.Label>
@@ -365,4 +338,4 @@ function ProjectExample() {
     );
 }
 
-export default ProjectExample;
+export default Project;

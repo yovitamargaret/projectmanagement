@@ -1,5 +1,6 @@
 package com.example.demo.entities;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class Project {
     private Date start_date;
     private Date due_date;
     private String project_approval_status;
-    private Date approval_date;
+    private Timestamp approval_date;
     private String project_status;
 
     @ManyToOne
@@ -75,10 +76,10 @@ public class Project {
     public void setProject_approval_status(String project_approval_status) {
         this.project_approval_status = project_approval_status;
     }
-    public Date getApproval_date() {
+    public Timestamp getApproval_date() {
         return approval_date;
     }
-    public void setApproval_date(Date approval_date) {
+    public void setApproval_date(Timestamp approval_date) {
         this.approval_date = approval_date;
     }
     public String getProject_status() {

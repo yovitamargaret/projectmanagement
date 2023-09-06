@@ -4,6 +4,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
+import moment from 'moment';
 
 function ProjectApprovePage() {
   const [pendingProjects, setPendingProjects] = useState([]);
@@ -28,6 +29,9 @@ function ProjectApprovePage() {
 }
 
   let approveProject=(project_id)=>{
+    const currentApprovalDate = moment().format("YYYY-MM-DDTHH:mm:ss.SSS");
+
+
     axios({
       method:"GET",
       url:`http://localhost:8088/api/project/${project_id}`
@@ -39,7 +43,7 @@ function ProjectApprovePage() {
             "start_date": response.data.data.start_date,
             "due_date": response.data.data.due_date,
             "project_approval_status": "Approved",
-            "approval_date": response.data.data.approval_date,
+            "approval_date": currentApprovalDate,
             "project_status": response.data.data.project_status,
             "team": {
                 "team_id":  response.data.data.team.team_id
@@ -78,8 +82,8 @@ function ProjectApprovePage() {
             "description": response.data.data.description,
             "start_date": response.data.data.start_date,
             "due_date": response.data.data.due_date,
-            "project_approval_status": "Approved",
-            "approval_date": response.data.data.approval_date,
+            "project_approval_status": "Rejected",
+            "approval_date": null,
             "project_status": response.data.data.project_status,
             "team": {
                 "team_id":  response.data.data.team.team_id
@@ -106,25 +110,62 @@ function ProjectApprovePage() {
     })
   }
 
+  const confirmApprove = (project_id) => {
+    Swal.fire({
+      title: 'Approve Project',
+      text: 'Are you sure you want to approve this project?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, approve it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        approveProject(project_id);
+      }
+    });
+  };
+
+  const confirmReject = (project_id) => {
+    Swal.fire({
+      title: 'Reject Project',
+      text: 'Are you sure you want to reject this project?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, reject it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        rejectedProject(project_id);
+      }
+    });
+  };
+
 
   return (
-    <div>
-      <h1>Approve Projects</h1>
+    <div  className='p-5 bg-light'>
+      <div className="container-fluid">
+      <h3>Approval Projects</h3>
       {pendingProjects.map((project) => (
-        <Card key={project.project_id}>
+        <Card key={project.project_id} className="mb-3">
           <Card.Body>
             <h3>{project.name}</h3>
             <p>{project.description}</p>
-            <Button variant="success" onClick={() => approveProject(project.project_id)}>
+            <div className='d-flex gap-2'>
+            <Button variant="success" onClick={() => confirmApprove(project.project_id)}>
               Approve
             </Button>
-            <Button variant="danger" onClick={() => rejectedProject(project.project_id)}>
+            <Button variant="danger" onClick={() => confirmReject(project.project_id)}>
               Reject
             </Button>
+            </div>
           </Card.Body>
         </Card>
       ))}
     </div>
+</div>
+
   );
 }
 
