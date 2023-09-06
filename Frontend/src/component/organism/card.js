@@ -24,6 +24,7 @@ function Project() {
     const now = 60;
     const [lgShow, setLgShow] = useState(false);
     const [data, setData] = useState([]);
+    const [dataTask, setDataTask] = useState([{}]);
     const [id, setId] = useState(0);
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -92,6 +93,19 @@ function Project() {
         }).catch((error) => {
             console.log(error);
         });
+        axios({
+            method: "Get",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            url: "http://localhost:8088/api/task_detail",
+        }). then((response)=>{
+            if(response.data.status === 200){
+                setDataTask(response.data.data)
+            }
+        }).catch((error)=> {
+            console.log(error)
+        })
     }, [status]);
 
     
@@ -165,6 +179,12 @@ function Project() {
         handleShow();
     }
     
+    let progressBar=(project)=>{
+        let done=dataTask.filter(x=>x.task_status==="Done" && x.task?.project?.project_id===project).length
+        let all=dataTask.filter(x=>x.task?.project?.project_id===project).length
+        let result = (done/all)*100
+        return result
+    }
 
     return (
         <div className='p-5 bg-light'>
@@ -203,7 +223,7 @@ function Project() {
                     <div>                        
                     </div>
                     <Row>
-                    <Col ><ProgressBar now={now} label={`${now}%`} visuallyHidden /></Col>
+                    <Col ><ProgressBar now={progressBar(project.project_id)} label={`${progressBar(project.project_id)}%`} visuallyHidden /></Col>
                      <Col>
                         <div className="time">
                         <Badge bg="secondary">{date(project.due_date)} Days more</Badge>
