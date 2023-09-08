@@ -2,13 +2,16 @@ import { Chart } from "react-google-charts";
 import axios from "axios"
 import { useState, useEffect } from 'react';
 import "./index.css";
+import { useDispatch, useSelector } from "react-redux";
 
 let GanttChart = (props)=>{
     const project = props.project;
     const [ data, setData] = useState([{}]);
     const [task_id,setTask_id] =useState(0);
-    const [status,setStatus] =useState(false);
+    const {value}=useSelector(state=>state.statusLoad);
+    const [status,setStatus] =useState(value);
 
+    // const dispatch = useDispatch()
     useEffect(() =>{
       axios({
           method:"GET",
@@ -16,6 +19,7 @@ let GanttChart = (props)=>{
       }).then((response) => {
           setData(response.data.data)
           setStatus(false)
+          // dispatch(update({status}))
       }).catch((error) => {
        console.log(error)
       })  
@@ -95,9 +99,8 @@ let GanttChart = (props)=>{
             ])
         ]
 
-  let paddingHeight = 15;
   let rowHeight = (dataGantt.length) * 28;
-  let chartHeight = rowHeight + paddingHeight;
+  let chartHeight = 161;
   const options = {
     height: chartHeight,
     chartArea: {
@@ -128,7 +131,9 @@ let GanttChart = (props)=>{
 
   if (dataTimeline.length===1) {
     return(
+      <div style={{height:161}}>
       <h3 className="title"> Create new Task to see chart</h3>
+      </div>
     )
   } else {
     return(

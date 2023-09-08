@@ -25,6 +25,7 @@
     "react-bootstrap-validation": "^0.1.11",
     "react-circular-progressbar": "^2.1.0",
     "react-dom": "^18.2.0",
+    "react-google-charts": "^4.0.1",
     "react-dropdown-select": "^4.10.0",
     "react-google-charts": "^4.0.1",
     "react-redux": "^8.1.2",

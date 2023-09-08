@@ -44,4 +44,9 @@ public class EmployeeRestController {
         employeeService.Delete(id);
         return Response.generate(HttpStatus.OK,"Data has been succesfully deleted");
     }
+
+    @GetMapping("employee/project/{project_id}")
+    public ResponseEntity<Object> getByProject(@PathVariable(required = true) Integer project_id){
+        return Response.generate(HttpStatus.OK, "Data has been successfully retrieved", employeeService.findManyByProject(project_id));
+    }
 }

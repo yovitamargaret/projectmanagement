@@ -1,9 +1,10 @@
+import Project from '../project';
 import './index.css';
-import Project from '../../organism/card';
+
 
 let Home = ()=>{
     return(  
-        <Project></Project>    
+        <Project></Project>  
     )
 }
 export default Home;

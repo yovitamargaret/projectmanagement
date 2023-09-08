@@ -40,5 +40,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Integer findIdByEmail(String email) {
         return employeeRepository.findIdByEmail(email);
     }
+
+    @Override
+    public List<Employee> findManyByProject(Integer project_id) {
+        return employeeRepository.findManyByProject(project_id);
+    }
     
 }

@@ -1,6 +1,4 @@
-*{
-    /* border: 1px solid red */
-}
+
 .task{
     width: 100%;
 }
@@ -10,7 +8,9 @@
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 .gantt{
-    /* height: 200px; */
+    height: 160px;
+}
+.gantt-chart{
     width: 100%;
     /* display:block; */
     /* overflow-y: scroll; */

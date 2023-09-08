@@ -1,5 +1,4 @@
 import React from 'react';
-import * as Icon from 'react-bootstrap-icons';
 import {
   CDBSidebar,
   CDBSidebarContent,
@@ -8,7 +7,8 @@ import {
   CDBSidebarMenu,
   CDBSidebarMenuItem,
 } from 'cdbreact';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
+
 
 let Sidebar = ()=>{
     return(
@@ -17,13 +17,13 @@ let Sidebar = ()=>{
           <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
             <a href="/" className="text-decoration-none" style={{ color: 'inherit' }}>
               Sidebar
-            </a>
+            </a>  
           </CDBSidebarHeader>
   
           <CDBSidebarContent className="sidebar-content">
             <CDBSidebarMenu>
               <NavLink exact to="/" activeClassName="activeClicked">
-                <CDBSidebarMenuItem icon="columns">Dashboard</CDBSidebarMenuItem>
+                <CDBSidebarMenuItem icon="columns">Home</CDBSidebarMenuItem>
               </NavLink>
               <NavLink exact to="/approval_project" activeClassName="activeClicked">
                 <CDBSidebarMenuItem icon="check">Approve Projects</CDBSidebarMenuItem>
@@ -54,4 +54,5 @@ let Sidebar = ()=>{
     
     )
 }
+
 export default Sidebar;

@@ -45,4 +45,5 @@ public class TaskDetailRestController {
         taskDetailService.Delete(id);
         return Response.generate(HttpStatus.OK,"Data has been succesfully deleted");
     }
+
 }

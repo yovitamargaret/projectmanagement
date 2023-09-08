@@ -1,5 +1,4 @@
 import Card from 'react-bootstrap/Card';
-import '../organism/layout.css'
 import 'react-circular-progressbar/dist/styles.css';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -16,7 +15,7 @@ import "./layout.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom';
-
+import ProgressBarComponent from '../../organism/progressbar';
 
 
 function Project() {
@@ -40,6 +39,7 @@ function Project() {
     const projectApprovalOptions = ["Approved", "Pending", "Rejected"];
     const projectStatusOptions = ["Not Started", "Ongoing", "Done", "Bug"];
     const [selectedProject, setSelectedProject] = useState(0);
+    const [taskPercentage, setTaskPercentage] = useState(0);
 
     const startdate = moment(data.startDate).format("MMMM DD,yyyy");
 
@@ -341,8 +341,6 @@ function Project() {
         ))}
     </Form.Select>
 </Form.Group>
-
-{console.log(selectedTeamId)}
 
 
 

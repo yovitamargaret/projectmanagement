@@ -7,9 +7,11 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
+import { useDispatch } from "react-redux";
+import { update } from "../../../features/status/statusSlice";
 
 let Task = (props) =>{
-   const project=props.project;
+    const project=props.project;
     const [ data, setData] = useState([{}]);
     const [ dataRequestTask, setDataRequestTask] = useState([{}]);
     const [ employeeData, setEmployeeData] = useState([{}]);
@@ -30,7 +32,9 @@ let Task = (props) =>{
     const [task_approval_status,setTaskApprovalStatus] =useState("");
     const [task_status,setTaskStatus] =useState("");
 
-    const handleClose = () =>{
+    const dispatch= useDispatch();
+
+  const handleClose = () =>{
       setShow(false);
       setSelectedTask(null);
       // setShowEdit(false);
@@ -53,7 +57,7 @@ let Task = (props) =>{
       setShowRequestedTask(true)
   };
 
-    const data_board = {
+  const data_board = {
         lanes: [
         {
             id: 'Not Started',
@@ -76,9 +80,9 @@ let Task = (props) =>{
             cards: []
         }
         ]
-    }
+  }
 
-    let handleDragStart=(cardId, laneId)=>{
+  let handleDragStart=(cardId, laneId)=>{
       axios({
         method: 'Get',
         headers: {
@@ -93,9 +97,9 @@ let Task = (props) =>{
         .catch((error) => {
           console.log(error);
         });
-    }
+  }
 
-    let handleDragEnd=(cardId,sourceLaneId,targetLaneId,position,cardDetails)=>{
+  let handleDragEnd=(cardId,sourceLaneId,targetLaneId,position,cardDetails)=>{
 
       let data_update = {
           "task_detail_id": cardId,
@@ -114,7 +118,7 @@ let Task = (props) =>{
           .then((response) => {
             if (response.data.status === 200) {
               setStatus(true);
-              // window.location.href="/task";
+              // dispatch(update({status}))
             }
           })
           .catch((error) => {
@@ -153,6 +157,7 @@ let Task = (props) =>{
                       .then((response2) => {
                         if (response2.data.status === 200) {
                           setStatus(true);
+                          // dispatch(update({status}))
                         }
                       })
                       .catch((error2) => {
@@ -296,6 +301,7 @@ let Task = (props) =>{
                   if(response.data.status === 200){
                     // console.log(response)
                     setStatus(true)
+                    // dispatch(update({status}))
                   }
                 }).catch((error)=> {
                   console.log(error)
@@ -311,9 +317,9 @@ let Task = (props) =>{
     }).catch((error)=> {
         console.log(error)
     })
-}
+  }
 
-const onSubmitEdit = () => {
+  const onSubmitEdit = () => {
   handleClose();
 
   let data_task = {
@@ -358,6 +364,7 @@ const onSubmitEdit = () => {
           if(response.data.status === 200){
             // console.log(response)
             setStatus(true)
+            // dispatch(update({status}))
           }
         }).catch((error)=> {
           console.log(error)
@@ -366,7 +373,7 @@ const onSubmitEdit = () => {
         }).catch((error)=> {
             console.log(error)
         })
-}
+  }
 
   let diffDate=(due_date)=>{
     const now = new Date();
@@ -383,12 +390,13 @@ const onSubmitEdit = () => {
     return result
   }
 
-    useEffect(() =>{
+  useEffect(() =>{
     axios({
         method:"GET",
         url: "http://localhost:8088/api/task_detail"
     }).then((response) => {
         setData(response.data.data)
+        dispatch(update({status}))
         setStatus(false)
         setStatusProops(true)
     }).catch((error) => {
@@ -397,17 +405,17 @@ const onSubmitEdit = () => {
     
     axios({
           method:"GET",
-          url: "http://localhost:8088/api/employee"
+          url: `http://localhost:8088/api/employee/project/${project}`
       }).then((response) => {
           setEmployeeData(response.data.data)
       }).catch((error) => {
        console.log(error)
       })
 
-    },[status])
+  },[status])
     
-    const { lanes } = data_board;
-    data.filter(x=>x.task_status==="Not Started"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===project).map((x,index)=>{
+  const { lanes } = data_board;
+  data.filter(x=>x.task_status==="Not Started"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===project).map((x,index)=>{
         lanes[0].cards.push({
           id: x.task_detail_id.toString(),
           title: x.task.name,
@@ -421,8 +429,8 @@ const onSubmitEdit = () => {
           ],
           label: diffDate(x.task.due_date)
       });
-    })
-    data.filter(x=>x.task_status==="Ongoing"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===project).map(x=>{
+  })
+  data.filter(x=>x.task_status==="Ongoing"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===project).map(x=>{
       lanes[1].cards.push({
           id: x.task_detail_id.toString(),
           title: x.task.name,
@@ -436,8 +444,8 @@ const onSubmitEdit = () => {
           ],
           label: diffDate(x.task.due_date)
       });
-    })
-    data.filter(x=>x.task_status==="Done"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===project).map(x=>{
+  })
+  data.filter(x=>x.task_status==="Done"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===project).map(x=>{
       lanes[2].cards.push({
         id: x.task_detail_id.toString(),
         title: x.task.name,
@@ -453,8 +461,8 @@ const onSubmitEdit = () => {
         label: diffDate(x.task.due_date)
         // label: x.task.due_date
       });
-    })
-    data.filter(x=>x.task_status==="Bug"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===project).map(x=>{
+  })
+  data.filter(x=>x.task_status==="Bug"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===project).map(x=>{
       lanes[3].cards.push({
         id: x.task_detail_id.toString(),
         title: x.task.name,
@@ -468,19 +476,15 @@ const onSubmitEdit = () => {
         ],
         label: diffDate(x.task.due_date)
       });
-    })
+  })
 
-    lanes[0].label=data.filter(x=>x.task_status==="Not Started" && x.task.task_approval_status ==="Approved" && x.task.project.project_id ===project).length.toString();
-    lanes[1].label=data.filter(x=>x.task_status==="Ongoing"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===project).length.toString();
-    // lanes[project].label=data.filter(x=>x.task_status==="Done"&& x.task.task_approval_status ==="Approved" && x.task.project.project_id ===project).length.toString();
-    if (lanes[project]) {
-      lanes[project].label = data.filter(x => x.task_status === "Done" && x.task.task_approval_status === "Approved" && x.task.project.project_id === project).length.toString();
-    }
-    
-    lanes[3].label=data.filter(x=>x.task_status==="Bug"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===project).length.toString();
+  lanes[0].label=data.filter(x=>x.task_status==="Not Started" && x.task.task_approval_status ==="Approved" && x.task.project.project_id ===project).length.toString();
+  lanes[1].label=data.filter(x=>x.task_status==="Ongoing"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===project).length.toString();
+  lanes[2].label = data.filter(x => x.task_status === "Done" && x.task.task_approval_status === "Approved" && x.task.project.project_id === project).length.toString();
+  lanes[3].label=data.filter(x=>x.task_status==="Bug"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===project).length.toString();
 
 
-    let approveTask=(task_id)=>{
+  let approveTask=(task_id)=>{
       axios({
           method:"GET",
           url: `http://localhost:8088/api/task/${task_id}`,
@@ -504,6 +508,7 @@ const onSubmitEdit = () => {
           }).then((response) => {
               setShowRequestedTask(false)
               setStatus(true)
+              // dispatch(update({status}))
               // console.log(response)
           }).catch((error) => {
           console.log(error)
@@ -511,9 +516,9 @@ const onSubmitEdit = () => {
       }).catch((error) => {
       console.log(error)
       })
-    }
+  }
 
-    let rejectTask=(task_id)=>{
+  let rejectTask=(task_id)=>{
       axios({
         method:"GET",
         url: `http://localhost:8088/api/task/${task_id}`,
@@ -537,6 +542,7 @@ const onSubmitEdit = () => {
         }).then((response) => {
             setShowRequestedTask(false)
             setStatus(true)
+            // dispatch(update({status}))
             // console.log(response)
         }).catch((error) => {
         console.log(error)
@@ -544,9 +550,11 @@ const onSubmitEdit = () => {
     }).catch((error) => {
     console.log(error)
     })
-    }
+  }
 
-    return(
+  let datalength =data.filter(x=> x.task?.task_approval_status ==="Pending" && x.task?.project?.project_id ===project).length;
+  
+  return(
       <div>
         <Button variant="primary" onClick={handleShow}>Create Task</Button>
         <Button variant="primary" onClick={requestTaskHandleShow}>Requested Task</Button>
@@ -631,7 +639,8 @@ const onSubmitEdit = () => {
           <Modal.Title>Requested Task</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {data.filter(x=> x.task?.task_approval_status ==="Pending" && x.task?.project?.project_id ===project).map(x=>{
+          {datalength===0 ? "No Data Request":
+          data.filter(x=> x.task?.task_approval_status ==="Pending" && x.task?.project?.project_id ===project).map(x=>{
             return(
                 <Card key={x.task?.task_detail_id}>
                 <Card.Body>
@@ -661,7 +670,8 @@ const onSubmitEdit = () => {
       </Modal>
 
       </div>
-    )
+  )
+
 }
 
 export default Task;

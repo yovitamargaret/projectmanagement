@@ -34,5 +34,5 @@ public class TaskDetailServiceImpl implements TaskDetailService{
         taskDetailRepository.deleteById(id);
         return !taskDetailRepository.findById(id).isPresent();
     }
-    
+
 }

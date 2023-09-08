@@ -18,15 +18,8 @@ import ProjectApprovePage from './component/template/approval_project';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // <React.StrictMode>
-  //   {/* <App/> */}
-  //   {/* <Home></Home> */}
-  //   {/* <Region></Region> */}
-
-  // </React.StrictMode>
 
   <Provider store = {store}>
-    {/* <App></App> */}
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Layout/>}>
@@ -40,8 +33,13 @@ root.render(
           <Route path='approval_project' element={<ProjectApprovePage/>} />
           <Route path='*' element={<NotFound/>}/>
         </Route>
+        <Route index element={<Home/>}/> 
+      <Route path='approval_project' element={<ProjectApprovePage/>}/>
       </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
+        
+      
+ 
   </Provider>
 );
 
