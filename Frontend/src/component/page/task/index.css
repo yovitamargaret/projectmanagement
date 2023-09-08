@@ -1,8 +1,8 @@
 *{
-    border:1 px solid red;
+    /* border: 1px solid red */
 }
 .task{
-    width:auto;
+    width: 100%;
 }
 .task h1{
     text-align: center;
@@ -12,15 +12,15 @@
 .gantt{
     /* height: 200px; */
     width: 100%;
-    display:block;
+    /* display:block; */
     /* overflow-y: scroll; */
     /* padding-top: 40px; */
     /* vertical-align: middle; */
 }
 .board{
-    display: block;
+    /* display: block; */
     /* margin-top:10px; */
     width: 100%;
     z-index: -1;
-    /* overflow-y: scroll; */
+    /* overflow-x: scroll; */
 }

@@ -26,12 +26,12 @@ function Task(){
         <>
         <div className="task">
             <h1>{data.name}</h1>
-        <div className="gantt">
-         <GanttChart project={parseInt(project_id)}></GanttChart>
-        </div>
-        <div className="board">
-        <TaskTemplate project={parseInt(project_id)}></TaskTemplate>
-        </div>
+            <div clssName="gantt">
+                <GanttChart  project={parseInt(project_id)}></GanttChart>
+            </div>
+            <div className="board">
+                <TaskTemplate project={parseInt(project_id)}></TaskTemplate>
+            </div>
         </div>
         </>
     )

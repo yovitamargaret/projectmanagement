@@ -12,13 +12,13 @@ let Layout = () => {
             <div className='col'>
                     <BrandExample/>
                 
-                <div className='row'>
+                {/* <div className='row'> */}
                     <div className='col'>
                             <Outlet/>
                      
                     </div>  
     
-                </div>
+                {/* </div> */}
                 
                
                 

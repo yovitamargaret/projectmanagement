@@ -552,7 +552,7 @@ const onSubmitEdit = () => {
         <Button variant="primary" onClick={requestTaskHandleShow}>Requested Task</Button>
 
         <Board 
-        style={{height:280, alignSelf: 'flex-start'}} 
+        style={{height:300, "width":"100%", alignSelf: 'flex-start'}} 
         data={data_board} 
         onCardDelete={onCardDelete} 
         handleDragStart={handleDragStart} 
