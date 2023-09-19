@@ -17,9 +17,15 @@ import com.example.demo.dto.ChangePasswordRequest;
 import com.example.demo.dto.ForgotPasswordRequest;
 import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.RegisterRequest;
+import com.example.demo.dto.UserInfo;
+import com.example.demo.entities.Employee;
+import com.example.demo.entities.Role;
+import com.example.demo.entities.User;
 import com.example.demo.handler.Response;
 import com.example.demo.services.AccountService;
 import com.example.demo.services.EmployeeService;
+import com.example.demo.services.RoleService;
+import com.example.demo.services.UserService;
 
 @RestController
 @RequestMapping("api")
@@ -31,6 +37,10 @@ public class UserRestController {
     private AccountService accountService;
     @Autowired
     private EmployeeService employeeService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private RoleService roleService;
     @PostMapping("user/login")
     public ResponseEntity<Object> login( @RequestBody LoginRequest loginValue){
         Authentication authentication = authenticationManager
@@ -38,11 +48,22 @@ public class UserRestController {
                 loginValue.getEmail(), loginValue.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         if (authentication.isAuthenticated()) {
-            return Response.generate(HttpStatus.OK, "Login Successful", employeeService.Get(employeeService.findIdByEmail(loginValue.getEmail())));
+            UserInfo userInfo = new UserInfo();
+            
+            Employee employee = employeeService.Get(employeeService.findIdByEmail(loginValue.getEmail()));
+            User user = userService.Get(employee.getEmployee_id());
+            Role role = roleService.Get(user.getRole().getRole_id());
+
+            userInfo.setEmployee_name(employee.getName());
+            userInfo.setRole_name(role.getName());
+            userInfo.setRole_level(role.getLevel());
+
+            return Response.generate(HttpStatus.OK, "Login Successful", userInfo);
         }
         return Response.generate(HttpStatus.UNAUTHORIZED, "Login Gagal");
         
     }
+
     @PostMapping("user/register")
     public ResponseEntity<Object> register(@RequestBody RegisterRequest registerRequest){
         Boolean result = accountService.register(registerRequest);
@@ -64,16 +85,14 @@ public class UserRestController {
     }
 
     @PostMapping("profile/changePassword")
-        public ResponseEntity<Object> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
-            boolean changed = accountService.changePassword(changePasswordRequest);
-
-            if (changed) {
-                return Response.generate(HttpStatus.OK, "Password changed successfully");
-            }
-            
-            return Response.generate(HttpStatus.BAD_REQUEST, "Failed to change password");
+    public ResponseEntity<Object> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
+        boolean changed = accountService.changePassword(changePasswordRequest);
+        if (changed) {
+            return Response.generate(HttpStatus.OK, "Password changed successfully");
         }
-    
+        
+        return Response.generate(HttpStatus.BAD_REQUEST, "Failed to change password");
+    }
 }
 
 

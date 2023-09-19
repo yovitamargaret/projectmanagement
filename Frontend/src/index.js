@@ -15,31 +15,40 @@ import Employee from './component/page/employee/employee';
 import ForgotPassword from './component/page/forgotPassword/forgotPassword';
 import GanttChart from './component/template/gantt';
 import ProjectApprovePage from './component/template/approval_project';
+import { AuthProvider } from './features/authentication/AuthProvider';
+import RequireAuth from './features/authentication/RequireAuth';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  // <React.StrictMode>
+  //   {/* <App/> */}
+  //   {/* <Home></Home> */}
+  //   {/* <Region></Region> */}
 
+  // </React.StrictMode>
+  
   <Provider store = {store}>
     <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Layout/>}>
-          <Route index element={<Home/>}/>
-          <Route path='task/:project_id' element={<Task/>}/>
-          <Route path='gantt' element={<GanttChart/>}/>
-          <Route path='employee' element={<Employee/>}/>
-          <Route path='login' element={<Login/>}/>
-          <Route path='register' element={<Register/>}/>
-          <Route path='forgotpassword' element={<ForgotPassword/>}/>
-          <Route path='approval_project' element={<ProjectApprovePage/>} />
-          <Route path='*' element={<NotFound/>}/>
-        </Route>
-        <Route index element={<Home/>}/> 
-      <Route path='approval_project' element={<ProjectApprovePage/>}/>
-      </Routes>
-      </BrowserRouter>
-        
-      
- 
+      <AuthProvider>
+        <Routes>
+          <Route path='/' element={<Layout/>}>
+            <Route path='login' element={<Login/>}/>
+            <Route path='register' element={<Register/>}/>
+            <Route path='forgotpassword' element={<ForgotPassword/>}/>
+
+            <Route element={<RequireAuth />}>
+              <Route index element={<Home/>}/>
+              <Route path='gantt' element={<GanttChart/>}/>
+              <Route path='task/:project_id' element={<Task/>}/>
+              <Route path='approval_project' element={<ProjectApprovePage/>} />
+              <Route path='employee' element={<Employee/>}/>
+            </Route>
+
+            <Route path='*' element={<NotFound/>}/>
+          </Route>
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
   </Provider>
 );
 

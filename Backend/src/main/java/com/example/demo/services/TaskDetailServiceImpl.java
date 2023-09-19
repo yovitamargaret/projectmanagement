@@ -37,7 +37,8 @@ public class TaskDetailServiceImpl implements TaskDetailService{
 
     @Override
     public List<TaskDetail> findByProjectId(Integer project_id) {
-        return taskDetailRepository.findAllByProjectId(project_id);
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findByProjectId'");
+    }
     
-}
 }

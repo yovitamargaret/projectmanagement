@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
 
 let Register = () => {
     const [name, setName] = useState("");
@@ -11,6 +12,7 @@ let Register = () => {
     const [repeated_password, setRepeatedPassword] = useState("");
     const [status, setStatus] = useState(false);
     const [notification, setNotification] = useState("");
+    const navigate = useNavigate();
 
     const SubmitRegister = () => {
         if (name === "" || address === "" || email === "" || password === "" || repeated_password === ""){
@@ -35,8 +37,7 @@ let Register = () => {
             }).then((response)=>{
                 if(response.data.status === 200){
                     setStatus(!status)
-                    console.log("Register success!")
-                    window.location.href = "/login";
+                    navigate("/login");
                 }
             }).catch((error)=> {
                 console.log(error)
@@ -49,7 +50,7 @@ let Register = () => {
 
     return(
         <>
-            <button><Link to={"/login"}>Cancel</Link></button><br></br>
+            <br></br>
             <table>
                 <tr>
                     <td>Name</td>
@@ -76,7 +77,9 @@ let Register = () => {
                     <td><input type="password" id="repeated_password" name="repeated_password" value={repeated_password} onChange={e=> setRepeatedPassword(e.target.value)} /></td>
                 </tr>
             </table>
-            <button onClick={() => SubmitRegister()}>Submit</button><br></br><br></br>
+            <Button variant="success" onClick={() => SubmitRegister()}>Submit</Button>
+            <Button variant="warning" onClick={() => navigate("/login")}>Cancel</Button>
+            <br></br><br></br>
             <h1>{notification}</h1>
         </>
     )

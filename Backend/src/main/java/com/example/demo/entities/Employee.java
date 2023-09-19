@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.springframework.lang.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -32,6 +34,7 @@ public class Employee {
 
     @ManyToOne
     @JoinColumn(name="team_id")
+    @Nullable
     private Team team;
 
     public Integer getEmployee_id() {

@@ -1,5 +1,7 @@
 package com.example.demo.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,20 @@ public class TeamRestController {
     @GetMapping("team/{id}")
     public ResponseEntity<Object> get(@PathVariable(required = true) Integer id){
         return Response.generate(HttpStatus.OK, "Data has been successfully retrieved", teamService.Get(id));
+    }
+
+    @GetMapping("teammodified")
+    public ResponseEntity<Object> getModifiedTeamData(){
+        List<Team> teamList = teamService.Get();
+        Team team = new Team();
+
+        team.setTeam_id(0);
+        team.setName("Unassigned");
+        team.setTeam_member_number(0);
+
+        teamList.add(0, team);
+        
+        return Response.generate(HttpStatus.OK, "All data has been successfully retrieved", teamList);
     }
 
     @PostMapping("team")

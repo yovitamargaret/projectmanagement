@@ -1,11 +1,17 @@
 import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import UseAuth from "../../../features/authentication/UseAuth";
+import Button from 'react-bootstrap/Button';
 
 let Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [status, setStatus] = useState(false);
+    const navigate = useNavigate();
+
+    const { setAuth } = UseAuth();
+    setAuth("");
 
     const SubmitLogin = () => {
         let data = {
@@ -16,27 +22,23 @@ let Login = () => {
         axios({
             method :"POST",
             headers: {
-                'Content-Type' : 'application/json',
+                'Content-Type' : 'application/json'
             },
             url: "http://localhost:8088/api/user/login",
             data:JSON.stringify(data)
-        }).then((response)=>{
+        }).then((response) => {
             if(response.data.status === 200){
-                setStatus(!status)
-                // console.log(response)
-                console.log("Hello, " + response.data.data.name);
+                setAuth(response.data.data);
+                setStatus(!status);
+                navigate("/");
             }
-            else{
-                console.log("Login Failed!");
-            }
-        }).catch((error)=> {
+        }).catch((error) => {
             console.log(error)
         })
     }
 
     return(
         <>
-            <button><Link to={"/register"}>Register</Link></button><br></br>
             <table>
                 <tr>
                     <td>Email</td>
@@ -47,8 +49,9 @@ let Login = () => {
                     <td><input type="password" id="password" name="password" value={password} onChange={e => setPassword(e.target.value)} /></td>
                 </tr>
             </table>
-            <button onClick={() => SubmitLogin()}>Login</button><br></br>
-            <button><Link to={"/forgotpassword"}>Forgot Password</Link></button><br></br>
+            <Button variant="primary" onClick={() => SubmitLogin()}>Login</Button>
+            <Button variant="warning" onClick={() => navigate("/register")}>Register</Button><br></br>
+            <Link to={"/forgotpassword"}>Forgot Password</Link>
         </>
     )
 }

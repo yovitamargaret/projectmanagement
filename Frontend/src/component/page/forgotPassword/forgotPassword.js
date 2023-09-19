@@ -1,10 +1,12 @@
 import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
 
 let ForgotPassword = () => {
     const [email, setEmail] = useState("");
     const [status, setStatus] = useState(false);
+    const navigate = useNavigate();
 
     const SendPasswordChangeRequest = () => {
         let data = {
@@ -21,8 +23,7 @@ let ForgotPassword = () => {
         }).then((response) => {
             if(response.data.status === 200){
                 setStatus(!status)
-                window.location.href = "/login";
-                console.log();
+                navigate("/login");
             }
         }).catch((error) => {
             console.log(error)
@@ -37,8 +38,8 @@ let ForgotPassword = () => {
                     <td><input type="text" id="email" name="email" value={email} onChange={e => setEmail(e.target.value)} /></td>
                 </tr>
             </table>
-            <button onClick={() => SendPasswordChangeRequest()}>Reset Password</button>
-            <button><Link to={"/login"}>Cancel</Link></button>
+            <Button variant="success" onClick={() => SendPasswordChangeRequest()}>Reset Password</Button>
+            <Button variant="warning" onClick={() => navigate("/login")}>Cancel</Button>
         </>
     )
 }

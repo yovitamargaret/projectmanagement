@@ -7,6 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
+import UserData from "../../../features/authentication/UserData";
 
 let Task = (props) =>{
    const project=props.project;
@@ -21,6 +22,7 @@ let Task = (props) =>{
     const [show, setShow] = useState(false);
     const [showRequestedTask, setShowRequestedTask] = useState(false);
     const [selectedTask, setSelectedTask] = useState(null);
+    const [ roleData, setRoleData] = useState([{}]);
 
     const [task_title,setTask_title] =useState("");
     const [desc,setDesc] =useState("");
@@ -474,11 +476,7 @@ const onSubmitEdit = () => {
 
     lanes[0].label=data.filter(x=>x.task_status==="Not Started" && x.task.task_approval_status ==="Approved" && x.task.project.project_id ===project).length.toString();
     lanes[1].label=data.filter(x=>x.task_status==="Ongoing"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===project).length.toString();
-    // lanes[project].label=data.filter(x=>x.task_status==="Done"&& x.task.task_approval_status ==="Approved" && x.task.project.project_id ===project).length.toString();
-    if (lanes[project]) {
-      lanes[project].label = data.filter(x => x.task_status === "Done" && x.task.task_approval_status === "Approved" && x.task.project.project_id === project).length.toString();
-    }
-    
+    lanes[project].label=data.filter(x=>x.task_status==="Done"&& x.task.task_approval_status ==="Approved" && x.task.project.project_id ===project).length.toString();
     lanes[3].label=data.filter(x=>x.task_status==="Bug"&& x.task.task_approval_status ==="Approved"&& x.task.project.project_id ===project).length.toString();
 
 
@@ -548,10 +546,31 @@ const onSubmitEdit = () => {
     })
     }
 
+    useEffect(() => {
+      axios({
+          method:"GET",
+          url: "http://localhost:8088/api/role"
+      }).then((response) => {
+         setRoleData(response.data.data)
+      }).catch((error) => {
+          console.log(error)
+      })
+    },[status])
+  
+    function isHidden(levelMinimum){
+      const roles = []
+      roleData.forEach(e => {
+        if(e.level >= levelMinimum){
+            roles.push(e.name);
+        }
+      });
+  
+      return roles.includes(UserData().role_name) ? false : true;
+    }
     return(
       <div>
         <Button variant="primary" onClick={handleShow}>Create Task</Button>
-        <Button variant="primary" onClick={requestTaskHandleShow}>Requested Task</Button>
+        <Button variant="primary" onClick={requestTaskHandleShow} hidden={isHidden(2)}>Requested Task</Button>
 
         <Board 
         style={{height:315,alignSelf: 'flex-start'}} 
