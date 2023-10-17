@@ -6,28 +6,35 @@ import Button from 'react-bootstrap/Button';
 let ForgotPassword = () => {
     const [email, setEmail] = useState("");
     const [status, setStatus] = useState(false);
+    const [notification, setNotification] = useState("");
     const navigate = useNavigate();
 
     const SendPasswordChangeRequest = () => {
-        let data = {
-            "email": email
+        if(email === ""){
+            setNotification("Please fill the email to reset password");
         }
-
-        axios({
-            method :"POST",
-            headers: {
-                'Content-Type' : 'application/json',
-            },
-            url: "http://localhost:8088/api/user/forgot",
-            data:JSON.stringify(data)
-        }).then((response) => {
-            if(response.data.status === 200){
-                setStatus(!status)
-                navigate("/login");
+        else{
+            let data = {
+                "email": email
             }
-        }).catch((error) => {
-            console.log(error)
-        })
+    
+            axios({
+                method :"POST",
+                headers: {
+                    'Content-Type' : 'application/json',
+                },
+                url: "http://localhost:8088/api/user/forgot",
+                data:JSON.stringify(data)
+            }).then((response) => {
+                if(response.data.status === 200){
+                    setStatus(!status)
+                    navigate("/login");
+                }
+            }).catch((error) => {
+                console.log(error)
+                setNotification("Couldn't find such email");
+            })
+        }
     }
 
     return(
@@ -40,6 +47,7 @@ let ForgotPassword = () => {
             </table>
             <Button variant="success" onClick={() => SendPasswordChangeRequest()}>Reset Password</Button>
             <Button variant="warning" onClick={() => navigate("/login")}>Cancel</Button>
+            <h1>{notification}</h1>
         </>
     )
 }

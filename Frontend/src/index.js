@@ -17,6 +17,7 @@ import GanttChart from './component/template/gantt';
 import ProjectApprovePage from './component/template/approval_project';
 import { AuthProvider } from './features/authentication/AuthProvider';
 import RequireAuth from './features/authentication/RequireAuth';
+import ChangePassword from './component/page/changePassword/changePassword';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -42,6 +43,7 @@ root.render(
               <Route path='task/:project_id' element={<Task/>}/>
               <Route path='approval_project' element={<ProjectApprovePage/>} />
               <Route path='employee' element={<Employee/>}/>
+              <Route path='changepassword' element={<ChangePassword/>}/>
             </Route>
 
             <Route path='*' element={<NotFound/>}/>

@@ -51,6 +51,9 @@ let Sidebar = () => {
               <NavLink exact to="/" activeClassName="activeClicked" hidden={isHidden(1)}>
                 <CDBSidebarMenuItem icon="columns">Dashboard</CDBSidebarMenuItem>
               </NavLink>
+              <NavLink exact to="/changepassword" activeClassName="activeClicked" hidden={isHidden(1)}>
+                <CDBSidebarMenuItem icon="envelope">Change Password</CDBSidebarMenuItem>
+              </NavLink>
               <NavLink exact to="/approval_project" activeClassName="activeClicked" hidden={isHidden(3)}>
                 <CDBSidebarMenuItem icon="check">Approve Projects</CDBSidebarMenuItem>
               </NavLink>

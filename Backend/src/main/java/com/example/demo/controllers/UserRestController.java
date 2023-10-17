@@ -55,6 +55,7 @@ public class UserRestController {
             Role role = roleService.Get(user.getRole().getRole_id());
 
             userInfo.setEmployee_name(employee.getName());
+            userInfo.setEmail((employee.getEmail()));
             userInfo.setRole_name(role.getName());
             userInfo.setRole_level(role.getLevel());
 
@@ -84,7 +85,7 @@ public class UserRestController {
         return Response.generate(HttpStatus.BAD_REQUEST, "Failed to reset password");
     }
 
-    @PostMapping("profile/changePassword")
+    @PostMapping("profile/changepassword")
     public ResponseEntity<Object> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
         boolean changed = accountService.changePassword(changePasswordRequest);
         if (changed) {

@@ -52,10 +52,9 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public Boolean changePassword(ChangePasswordRequest changePasswordRequest) {
         Integer employee_id = employeeService.findIdByEmail(changePasswordRequest.getEmail());
-        User user = new User();
-        userService.Get(employee_id);
-        if (employee_id != null && passwordEncoder.matches(changePasswordRequest.getCurrentPassword(), user.getPassword())) {
-            user.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
+        User user = userService.Get(employee_id);
+        if (employee_id != null /*&& passwordEncoder.matches(changePasswordRequest.getCurrent_password(), user.getPassword())*/) {
+            user.setPassword(passwordEncoder.encode(changePasswordRequest.getNew_password()));
             Boolean resultUser = userService.Save(user);
             return resultUser;
         }

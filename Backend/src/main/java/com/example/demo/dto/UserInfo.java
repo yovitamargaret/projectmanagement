@@ -2,6 +2,7 @@ package com.example.demo.dto;
 
 public class UserInfo {
     private String employee_name;
+    private String email;
     private String role_name;
     private int role_level;
     
@@ -10,6 +11,12 @@ public class UserInfo {
     }
     public void setEmployee_name(String employee_name) {
         this.employee_name = employee_name;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
     }
     public String getRole_name() {
         return role_name;
